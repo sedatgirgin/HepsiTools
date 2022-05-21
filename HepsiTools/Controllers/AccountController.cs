@@ -81,7 +81,6 @@ namespace HepsiTools.Controllers
         public async Task<IActionResult> InsertUserAsync(UserModel model)
         {
             if(!ModelState.IsValid) return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
-            if(model.NewPassword != model.ConfirmPassword) return new ErrorResult("Yeni şifre ve tekrarı uyuşmamaktadır");
 
             User appUser = new User
             {
@@ -104,7 +103,6 @@ namespace HepsiTools.Controllers
         public async Task<IActionResult> ResetPasswordAsync(ResetPasswordModel model)
         {
             if (!ModelState.IsValid) return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
-            if (model.NewPassword != model.ConfirmPassword) return new ErrorResult("Yeni şifre ve tekrarı uyuşmamaktadır");
 
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
