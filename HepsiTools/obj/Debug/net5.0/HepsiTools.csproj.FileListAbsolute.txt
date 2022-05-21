@@ -11,7 +11,6 @@ C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.OpenApi.dll
 C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Projects\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.csproj.AssemblyReference.cache
 C:\Projects\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.GeneratedMSBuildEditorConfig.editorconfig
 C:\Projects\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.AssemblyInfoInputs.cache
 C:\Projects\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.AssemblyInfo.cs

@@ -1,6 +1,12 @@
 using FluentValidation.AspNetCore;
+using HepsiTools.Business.Abstract;
+using HepsiTools.Business.Concrate;
 using HepsiTools.DataAccess;
 using HepsiTools.Entities;
+using HepsiTools.GenericRepositories.Abstract;
+using HepsiTools.GenericRepositories.Concrate;
+using HepsiTools.MiddleWare;
+using HepsiTools.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -96,11 +102,17 @@ namespace HepsiTools
                     }
                 });
             });
+
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
+            services.AddSingleton<IErrorRepository, ErrorRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<ErrorHandling>();
+
             if (env.IsDevelopment())
             {
                 app.UseSwagger();
