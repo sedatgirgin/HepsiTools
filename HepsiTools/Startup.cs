@@ -42,8 +42,6 @@ namespace HepsiTools
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ToolDbContext>(options =>options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-
-
             services.AddHttpContextAccessor();
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ToolDbContext>().AddDefaultTokenProviders();
 

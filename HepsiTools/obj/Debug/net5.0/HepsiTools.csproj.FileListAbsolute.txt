@@ -127,3 +127,10 @@ C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\tr\Microsoft.CodeAnalysis.Wor
 C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Projects\HepsiTools\HepsiTools\obj\Debug\net5.0\staticwebassets\HepsiTools.StaticWebAssets.xml
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\MailKit.dll
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\MimeKit.dll
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\NETCore.MailKit.dll
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+C:\Projects\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.csproj.AssemblyReference.cache
