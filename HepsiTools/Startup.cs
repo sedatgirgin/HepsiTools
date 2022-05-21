@@ -1,3 +1,4 @@
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using HepsiTools.Business.Abstract;
 using HepsiTools.Business.Concrate;
@@ -7,6 +8,7 @@ using HepsiTools.GenericRepositories.Abstract;
 using HepsiTools.GenericRepositories.Concrate;
 using HepsiTools.MiddleWare;
 using HepsiTools.Models;
+using HepsiTools.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -71,9 +73,6 @@ namespace HepsiTools
                 options.SuppressModelStateInvalidFilter = true;
             }).AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
-            services.AddControllers().AddFluentValidation();
-
-
             services.AddSwaggerGen(s =>
             {
                 s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -104,6 +103,15 @@ namespace HepsiTools
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
             services.AddSingleton<IErrorRepository, ErrorRepository>();
+
+            services.AddControllers().AddFluentValidation();
+
+            services.AddTransient<IValidator<LoginModel>, LoginValidator>();
+            services.AddTransient<IValidator<ResetPasswordModel>, ResetPasswordValidator>();
+            services.AddTransient<IValidator<ChangePasswordModel>, ChangePasswordValidator>();
+            services.AddTransient<IValidator<ForgetPasswordModel>, ForgetPasswordValidator>();
+            services.AddTransient<IValidator<UserModel>, UserValidator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
