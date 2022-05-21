@@ -85,7 +85,9 @@ namespace HepsiTools.Controllers
             User appUser = new User
             {
                 Email = model.Email,
-                UserName = model.Email
+                UserName = model.Email,
+                Name = model.Name,
+                SurName = model.SurName
             };
             if (_userManager.FindByNameAsync(model.Email).Result == null)
             {

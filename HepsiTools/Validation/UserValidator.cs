@@ -7,6 +7,8 @@ namespace HepsiTools.Validation
     {
         public UserValidator()
         {
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Lütfen isminizi girin.");
+            RuleFor(x => x.SurName).NotEmpty().WithMessage("Lütfen soyisminizi girin.");
             RuleFor(x => x.Email).NotEmpty().WithMessage("Lütfen e-posta adresinizi girin.")
                .EmailAddress().WithMessage("Lütfen geçerli bir e-posta adresi girin.");
 
