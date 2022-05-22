@@ -2,7 +2,7 @@
 {
     public enum CompanyType
     {
-        Trendyol = 1,
+        TrendYol = 1,
         N11 = 2,
         GittiGidiyor = 3,
         HepsiBurada = 4,

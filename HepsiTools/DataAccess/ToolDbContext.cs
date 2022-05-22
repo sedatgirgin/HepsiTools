@@ -64,7 +64,7 @@ namespace HepsiTools.DataAccess
         }
 
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<CompetitionCompany> Companie { get; set; }
+        public virtual DbSet<CompetitionCompany> CompetitionCompany { get; set; }
         public virtual DbSet<Lisans> Lisans { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<UserLisans> UserLisans { get; set; }

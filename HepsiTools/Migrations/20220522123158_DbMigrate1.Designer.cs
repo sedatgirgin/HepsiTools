@@ -3,15 +3,17 @@ using System;
 using HepsiTools.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HepsiTools.Migrations
 {
     [DbContext(typeof(ToolDbContext))]
-    partial class ToolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220522123158_DbMigrate1")]
+    partial class DbMigrate1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

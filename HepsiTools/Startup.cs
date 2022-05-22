@@ -6,6 +6,7 @@ using HepsiTools.DataAccess;
 using HepsiTools.Entities;
 using HepsiTools.GenericRepositories.Abstract;
 using HepsiTools.GenericRepositories.Concrate;
+using HepsiTools.Helper;
 using HepsiTools.MiddleWare;
 using HepsiTools.Models;
 using HepsiTools.Validation;
@@ -102,7 +103,16 @@ namespace HepsiTools
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
-            services.AddSingleton<IErrorRepository, ErrorRepository>();
+            services.AddTransient<IErrorRepository, ErrorRepository>();
+            services.AddScoped<ICompetitionAnalysesRepository, CompetitionAnalysesRepository>();
+            services.AddScoped<ICompetitionCompanyRepository, CompetitionCompanyRepository>();
+            services.AddScoped<IConnectionInfoRepository, ConnectionInfoRepository>();
+            services.AddScoped<ILisansRepository, LisansRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IUserLisansRepository, UserLisansRepository>();
+            services.AddScoped<IWooCommerceDataRepository, WooCommerceDataRepository>();
+
 
             services.AddControllers().AddFluentValidation();
 
@@ -118,6 +128,8 @@ namespace HepsiTools
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandling>();
+
+            DataSeeding.Seed(app);
 
             if (env.IsDevelopment())
             {
