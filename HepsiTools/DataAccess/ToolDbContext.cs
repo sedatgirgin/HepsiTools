@@ -60,6 +60,8 @@ namespace HepsiTools.DataAccess
 
             modelBuilder.Entity<ConnectionInfo>().HasMany(I => I.CompetitionAnalyses).WithOne(I => I.ConnectionInfo).HasForeignKey(I => I.ConnectionInfoId).OnDelete(DeleteBehavior.Cascade);
 
+
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -121,7 +121,10 @@ namespace HepsiTools
             services.AddTransient<IValidator<ChangePasswordModel>, ChangePasswordValidator>();
             services.AddTransient<IValidator<ForgetPasswordModel>, ForgetPasswordValidator>();
             services.AddTransient<IValidator<UserModel>, UserValidator>();
-
+            services.AddTransient<IValidator<LisansModel>, LisansModelValidator>();
+            services.AddTransient<IValidator<UserLisansModel>, UserLisansModelValidator>();
+            services.AddTransient<IValidator<WooCommerceModel>, WooCommerceModelValidator>();
+            services.AddTransient<IValidator<OrderModel>, OrderModelValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

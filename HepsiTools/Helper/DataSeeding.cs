@@ -25,6 +25,17 @@ namespace HepsiTools.Helper
                 context.CompetitionCompany.AddRange(CompetitionCompanyList);
             }
 
+            if (context.Lisans.ToList().Count == 0)
+            {
+                context.Lisans.AddRange(new List<Lisans>() {  
+                    new Lisans() { Name="WooCommerce"}, 
+                    new Lisans() { Name="MultiWooCommerce"},
+                    new Lisans() { Name="CompetitionAnalyses"}
+                });
+            }
+
+
+
             context.SaveChanges();
         }
     }
