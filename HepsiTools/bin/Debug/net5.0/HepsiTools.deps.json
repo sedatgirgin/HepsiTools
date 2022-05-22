@@ -48,6 +48,7 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL.Design": "1.1.0",
           "Swashbuckle.AspNetCore": "5.6.3",
+          "WooCommerceNET": "0.8.4",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions.Reference": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies.Reference": "5.0.0.0",
@@ -2273,6 +2274,17 @@
           "System.Text.Encoding": "4.3.0",
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0"
+        }
+      },
+      "WooCommerceNET/0.8.4": {
+        "runtime": {
+          "lib/netstandard2.0/WooCommerce.NET.dll": {
+            "assemblyVersion": "0.8.4.0",
+            "fileVersion": "0.8.4.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/WooCommerce.NET.dll": {}
         }
       },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
@@ -5250,6 +5262,13 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
+    },
+    "WooCommerceNET/0.8.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Fmo7QpstNhZzbhNMuJfo322Ql+tqDGaR4SRxWBXZb/UGMAn0yNvhqu6HepFyiY1QCjwqI2IKylPmOBMuyZfhiQ==",
+      "path": "woocommercenet/0.8.4",
+      "hashPath": "woocommercenet.0.8.4.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",

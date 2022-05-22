@@ -10,7 +10,7 @@ namespace HepsiTools.Entities
         public string Name { get; set; }
         public string SurName { get; set; }
         public List<UserLisans> UserLisans { get; set; }
-        public List<Company> Companies { get; set; }
-
+        public List<WooCommerceData> WooCommerceDatas { get; set; }
+        public List<ConnectionInfo> ConnectionInfo { get; set; }
     }
 }

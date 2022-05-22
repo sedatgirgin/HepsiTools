@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HepsiTools.Migrations
 {
-    public partial class init : Migration
+    public partial class DbMigrate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,6 +51,19 @@ namespace HepsiTools.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Companie",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CompanyType = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companie", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ErrorLog",
                 columns: table => new
                 {
@@ -68,7 +81,7 @@ namespace HepsiTools.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Lisan",
+                name: "Lisans",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -77,7 +90,7 @@ namespace HepsiTools.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lisan", x => x.Id);
+                    table.PrimaryKey("PK_Lisans", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,7 +200,32 @@ namespace HepsiTools.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Company",
+                name: "ConnectionInfo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CompanyType = table.Column<int>(type: "integer", nullable: false),
+                    SupplierId = table.Column<string>(type: "text", nullable: true),
+                    UserName = table.Column<string>(type: "text", nullable: true),
+                    Password = table.Column<string>(type: "text", nullable: true),
+                    CargoCompanyId = table.Column<string>(type: "text", nullable: true),
+                    CustomResourceName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConnectionInfo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ConnectionInfo_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WooCommerceData",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -200,13 +238,13 @@ namespace HepsiTools.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Company", x => x.Id);
+                    table.PrimaryKey("PK_WooCommerceData", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Company_AspNetUsers_UserId",
+                        name: "FK_WooCommerceData_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,11 +267,38 @@ namespace HepsiTools.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserLisans_Lisan_LisansId",
+                        name: "FK_UserLisans_Lisans_LisansId",
                         column: x => x.LisansId,
-                        principalTable: "Lisan",
+                        principalTable: "Lisans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CompetitionAnalyses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    HighestPrice = table.Column<double>(type: "double precision", nullable: false),
+                    LowestPrice = table.Column<double>(type: "double precision", nullable: false),
+                    Multiple = table.Column<string>(type: "text", nullable: true),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Product = table.Column<string>(type: "text", nullable: true),
+                    Param = table.Column<string>(type: "text", nullable: true),
+                    ConnectionInfoId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompetitionAnalyses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CompetitionAnalyses_ConnectionInfo_ConnectionInfoId",
+                        column: x => x.ConnectionInfoId,
+                        principalTable: "ConnectionInfo",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -244,16 +309,38 @@ namespace HepsiTools.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    CompanyId = table.Column<int>(type: "integer", nullable: false)
+                    WooOrderId = table.Column<int>(type: "integer", nullable: false),
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    WooCommerceDataId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Order_Company_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Company",
+                        name: "FK_Order_WooCommerceData_WooCommerceDataId",
+                        column: x => x.WooCommerceDataId,
+                        principalTable: "WooCommerceData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WooProductId = table.Column<int>(type: "integer", nullable: false),
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    WooCommerceDataId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Product_WooCommerceData_WooCommerceDataId",
+                        column: x => x.WooCommerceDataId,
+                        principalTable: "WooCommerceData",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -296,14 +383,24 @@ namespace HepsiTools.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Company_UserId",
-                table: "Company",
+                name: "IX_CompetitionAnalyses_ConnectionInfoId",
+                table: "CompetitionAnalyses",
+                column: "ConnectionInfoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConnectionInfo_UserId",
+                table: "ConnectionInfo",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_CompanyId",
+                name: "IX_Order_WooCommerceDataId",
                 table: "Order",
-                column: "CompanyId");
+                column: "WooCommerceDataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_WooCommerceDataId",
+                table: "Product",
+                column: "WooCommerceDataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserLisans_LisansId",
@@ -315,6 +412,11 @@ namespace HepsiTools.Migrations
                 table: "UserLisans",
                 columns: new[] { "UserId", "LisansId", "IsActive" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WooCommerceData_UserId",
+                table: "WooCommerceData",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -335,10 +437,19 @@ namespace HepsiTools.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Companie");
+
+            migrationBuilder.DropTable(
+                name: "CompetitionAnalyses");
+
+            migrationBuilder.DropTable(
                 name: "ErrorLog");
 
             migrationBuilder.DropTable(
                 name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "Product");
 
             migrationBuilder.DropTable(
                 name: "UserLisans");
@@ -347,10 +458,13 @@ namespace HepsiTools.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Company");
+                name: "ConnectionInfo");
 
             migrationBuilder.DropTable(
-                name: "Lisan");
+                name: "WooCommerceData");
+
+            migrationBuilder.DropTable(
+                name: "Lisans");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

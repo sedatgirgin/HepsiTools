@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HepsiTools.Migrations
 {
     [DbContext(typeof(ToolDbContext))]
-    [Migration("20220521083740_aa")]
-    partial class aa
+    [Migration("20220522121501_DbMigrate")]
+    partial class DbMigrate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,33 +21,95 @@ namespace HepsiTools.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
-            modelBuilder.Entity("HepsiTools.Entities.Company", b =>
+            modelBuilder.Entity("HepsiTools.Entities.CompetitionAnalyses", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
-                    b.Property<string>("Consumer_key")
-                        .HasColumnType("text");
+                    b.Property<int>("ConnectionInfoId")
+                        .HasColumnType("integer");
 
-                    b.Property<string>("Consumer_secret")
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<double>("HighestPrice")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("LowestPrice")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Multiple")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("StoreURL")
+                    b.Property<string>("Param")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Product")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConnectionInfoId");
+
+                    b.ToTable("CompetitionAnalyses");
+                });
+
+            modelBuilder.Entity("HepsiTools.Entities.CompetitionCompany", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<int>("CompanyType")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companie");
+                });
+
+            modelBuilder.Entity("HepsiTools.Entities.ConnectionInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("CargoCompanyId")
+                        .HasColumnType("text");
+
+                    b.Property<int>("CompanyType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CustomResourceName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SupplierId")
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Company");
+                    b.ToTable("ConnectionInfo");
                 });
 
             modelBuilder.Entity("HepsiTools.Entities.ErrorLog", b =>
@@ -89,7 +151,7 @@ namespace HepsiTools.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Lisan");
+                    b.ToTable("Lisans");
                 });
 
             modelBuilder.Entity("HepsiTools.Entities.Order", b =>
@@ -99,17 +161,43 @@ namespace HepsiTools.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
-                    b.Property<int>("CompanyId")
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<int>("WooCommerceDataId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
+                    b.Property<int>("WooOrderId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("WooCommerceDataId");
 
                     b.ToTable("Order");
+                });
+
+            modelBuilder.Entity("HepsiTools.Entities.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<int>("WooCommerceDataId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WooProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WooCommerceDataId");
+
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("HepsiTools.Entities.UserLisans", b =>
@@ -142,6 +230,35 @@ namespace HepsiTools.Migrations
                         .IsUnique();
 
                     b.ToTable("UserLisans");
+                });
+
+            modelBuilder.Entity("HepsiTools.Entities.WooCommerceData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("Consumer_key")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Consumer_secret")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StoreURL")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WooCommerceData");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -357,24 +474,47 @@ namespace HepsiTools.Migrations
                     b.HasDiscriminator().HasValue("User");
                 });
 
-            modelBuilder.Entity("HepsiTools.Entities.Company", b =>
+            modelBuilder.Entity("HepsiTools.Entities.CompetitionAnalyses", b =>
+                {
+                    b.HasOne("HepsiTools.Entities.ConnectionInfo", "ConnectionInfo")
+                        .WithMany("CompetitionAnalyses")
+                        .HasForeignKey("ConnectionInfoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ConnectionInfo");
+                });
+
+            modelBuilder.Entity("HepsiTools.Entities.ConnectionInfo", b =>
                 {
                     b.HasOne("HepsiTools.Entities.User", "User")
-                        .WithMany("Companies")
-                        .HasForeignKey("UserId");
+                        .WithMany("ConnectionInfo")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("HepsiTools.Entities.Order", b =>
                 {
-                    b.HasOne("HepsiTools.Entities.Company", "Company")
+                    b.HasOne("HepsiTools.Entities.WooCommerceData", "WooCommerceData")
                         .WithMany("Orders")
-                        .HasForeignKey("CompanyId")
+                        .HasForeignKey("WooCommerceDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Company");
+                    b.Navigation("WooCommerceData");
+                });
+
+            modelBuilder.Entity("HepsiTools.Entities.Product", b =>
+                {
+                    b.HasOne("HepsiTools.Entities.WooCommerceData", "WooCommerceData")
+                        .WithMany("Products")
+                        .HasForeignKey("WooCommerceDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WooCommerceData");
                 });
 
             modelBuilder.Entity("HepsiTools.Entities.UserLisans", b =>
@@ -387,9 +527,20 @@ namespace HepsiTools.Migrations
 
                     b.HasOne("HepsiTools.Entities.User", "User")
                         .WithMany("UserLisans")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Lisans");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HepsiTools.Entities.WooCommerceData", b =>
+                {
+                    b.HasOne("HepsiTools.Entities.User", "User")
+                        .WithMany("WooCommerceDatas")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("User");
                 });
@@ -445,9 +596,9 @@ namespace HepsiTools.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("HepsiTools.Entities.Company", b =>
+            modelBuilder.Entity("HepsiTools.Entities.ConnectionInfo", b =>
                 {
-                    b.Navigation("Orders");
+                    b.Navigation("CompetitionAnalyses");
                 });
 
             modelBuilder.Entity("HepsiTools.Entities.Lisans", b =>
@@ -455,11 +606,20 @@ namespace HepsiTools.Migrations
                     b.Navigation("UserLisans");
                 });
 
+            modelBuilder.Entity("HepsiTools.Entities.WooCommerceData", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Products");
+                });
+
             modelBuilder.Entity("HepsiTools.Entities.User", b =>
                 {
-                    b.Navigation("Companies");
+                    b.Navigation("ConnectionInfo");
 
                     b.Navigation("UserLisans");
+
+                    b.Navigation("WooCommerceDatas");
                 });
 #pragma warning restore 612, 618
         }
