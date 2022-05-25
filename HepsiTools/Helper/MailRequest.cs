@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 
-namespace HepsiTools.Models
+namespace HepsiTools.Helper
 {
     public class MailRequest
     {
@@ -9,6 +9,5 @@ namespace HepsiTools.Models
         public string Subject { get; set; }
         public string Body { get; set; }
         public List<IFormFile> Attachments { get; set; }
-
     }
 }

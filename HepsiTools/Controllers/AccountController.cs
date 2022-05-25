@@ -14,6 +14,7 @@ using HepsiTools.Entities;
 using HepsiTools.ResultMessages;
 using HepsiTools.Models;
 using HepsiTools.Business.Abstract;
+using HepsiTools.Helper;
 
 namespace HepsiTools.Controllers
 {
@@ -26,35 +27,14 @@ namespace HepsiTools.Controllers
         private readonly IConfiguration _config;
         private readonly SignInManager<User> _signInManager;
         private readonly IMailService _mailService;
-
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config, IMailService mailService)
+        private readonly ILisansRepository _lisansRepository;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration config, IMailService mailService, ILisansRepository lisansRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _config = config;
             _mailService = mailService;
-        }
-
-        private async Task<string> GenerateJSONWebToken(User userInfo)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, userInfo.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email)
-            };
-
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SigningKey"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(_config["Jwt:ExpireDays"]));
-
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Audience"],
-              claims,
-              expires: expires,
-              signingCredentials: credentials);
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            _lisansRepository = lisansRepository;
         }
 
         [AllowAnonymous]
@@ -68,17 +48,26 @@ namespace HepsiTools.Controllers
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (!user.Equals(null))
+                var roles = await _userManager.GetRolesAsync(user);
+
+                if (!user.Equals(null) && roles.Count>0)
                 {
-                    return new Result("Başarılı", new { token = await GenerateJSONWebToken(user) });
+                   var lisans = _lisansRepository.Get(i => i.UserId == user.Id && i.IsActive == true);
+                    if (lisans.EndDate < DateTime.Now)
+                    {
+                        lisans.IsActive = false;
+                        _lisansRepository.Update(lisans);
+                    }
+
+                    return new Result("Başarılı", new { token = await GenerateJSONWebToken(user, roles.FirstOrDefault())});
                 }
             }
             return new ErrorResult("Lütfen giriş bilgilerinizi kontrol edin.");
         }
 
         [AllowAnonymous]
-        [HttpPut("UserAdd")]
-        public async Task<IActionResult> InsertUserAsync(UserModel model)
+        [HttpPut("AddUser")]
+        public async Task<IActionResult> AddUserAsync(UserModel model)
         {
             if(!ModelState.IsValid) return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
 
@@ -86,20 +75,33 @@ namespace HepsiTools.Controllers
             {
                 Email = model.Email,
                 UserName = model.Email,
-                Name = model.Name,
-                SurName = model.SurName
+                FirstName = model.FirstName,
+                LastName = model.LastName,
             };
+
             if (_userManager.FindByNameAsync(model.Email).Result == null)
             {
                 var identityUserResult = _userManager.CreateAsync(appUser, model.NewPassword).Result;
                 if (identityUserResult.Succeeded)
                 {
+                    var currentUser = _userManager.FindByEmailAsync(model.Email).Result;
+
+                    await _userManager.AddToRoleAsync(currentUser, RoleType.User.ToString());
+
+                    Lisans lisans = new Lisans();
+                    lisans.UserId = currentUser.Id;
+                    lisans.IsActive = true;
+                    lisans.StartDate = DateTime.Now;
+                    lisans.EndDate = DateTime.Now.AddYears(15);
+                    await _lisansRepository.InsertAsync(lisans);
+
                     return new Result(identityUserResult.Succeeded.ToString());
                 }
                 return new ErrorResult("Kullanıcı eklemede hata oluştu..");
             }
             return new ErrorResult("Email adresine kayıtlı bir hesap bulunmaktadır.");
         }
+
         [AllowAnonymous]
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPasswordAsync(ResetPasswordModel model)
@@ -186,6 +188,27 @@ namespace HepsiTools.Controllers
             }
             return new Result("Şifreniz başarıyla değiştirildi.");
         }
+        private async Task<string> GenerateJSONWebToken(User userInfo, string role)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
+                new Claim(JwtRegisteredClaimNames.Typ, role)
+            };
 
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SigningKey"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_config["Jwt:ExpireDays"]));
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Audience"],
+              claims,
+              expires: expires,
+              signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }

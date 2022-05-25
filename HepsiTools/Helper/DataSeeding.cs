@@ -1,6 +1,7 @@
 ﻿using HepsiTools.DataAccess;
 using HepsiTools.Entities;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,33 +11,47 @@ namespace HepsiTools.Helper
 {
     public static class DataSeeding
     {
-        public static void Seed(IApplicationBuilder app)
-        {
-            var scope = app.ApplicationServices.CreateScope();
-            var context = scope.ServiceProvider.GetService<ToolDbContext>();
-
-            if (context.CompetitionCompany.ToList().Count==0)
-            {
-                List <CompetitionCompany> CompetitionCompanyList =  new List<CompetitionCompany>();
-
-                foreach (var value in Enum.GetValues(typeof(CompanyType)))
-                    CompetitionCompanyList.Add(new CompetitionCompany() { CompanyType = (CompanyType)value });
-
-                context.CompetitionCompany.AddRange(CompetitionCompanyList);
-            }
-
-            if (context.Lisans.ToList().Count == 0)
-            {
-                context.Lisans.AddRange(new List<Lisans>() {  
-                    new Lisans() { Name="WooCommerce"}, 
-                    new Lisans() { Name="MultiWooCommerce"},
-                    new Lisans() { Name="CompetitionAnalyses"}
-                });
-            }
-
-
-
-            context.SaveChanges();
+        public static void Seed(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+        {   
+            DataSeeding.SeedRoles(roleManager);
+            DataSeeding.SeedUsers(userManager);
         }
+
+        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        {
+            if (!roleManager.RoleExistsAsync(RoleType.User.ToString()).Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = RoleType.User.ToString();
+                roleManager.CreateAsync(role);
+            }
+
+            if (!roleManager.RoleExistsAsync(RoleType.Admin.ToString()).Result)
+            {
+                IdentityRole role = new IdentityRole();
+                role.Name = RoleType.Admin.ToString();
+                roleManager.CreateAsync(role);
+            }
+        }
+
+        public static void SeedUsers(UserManager<User> userManager)
+        {
+            if (userManager.FindByEmailAsync(SeedAdmin.Email).Result == null)
+            {
+                User user = new User();
+                user.UserName = SeedAdmin.Email;
+                user.Email = SeedAdmin.Email;
+                user.FirstName = SeedAdmin.Name;
+                user.LastName = SeedAdmin.SurName;
+
+                IdentityResult result = userManager.CreateAsync(user, SeedAdmin.NewPassword).Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, RoleType.Admin.ToString()).Wait();
+                }
+            }
+        }
+
     }
 }

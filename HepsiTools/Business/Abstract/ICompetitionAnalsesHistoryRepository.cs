@@ -3,7 +3,7 @@ using HepsiTools.GenericRepositories.Abstract;
 
 namespace HepsiTools.Business.Abstract
 {
-    public interface ICompetitionCompanyRepository : IGenericRepository<CompetitionCompany>
+    public interface ICompetitionAnalsesHistoryRepository : IGenericRepository<CompetitionAnalysesHistory>
     {
     }
 }

@@ -104,13 +104,10 @@ namespace HepsiTools
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
             services.AddTransient<IErrorRepository, ErrorRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ICompetitionAnalsesHistoryRepository, CompetitionAnalsesHistoryRepository>();
             services.AddScoped<ICompetitionAnalysesRepository, CompetitionAnalysesRepository>();
-            services.AddScoped<ICompetitionCompanyRepository, CompetitionCompanyRepository>();
-            services.AddScoped<IConnectionInfoRepository, ConnectionInfoRepository>();
             services.AddScoped<ILisansRepository, LisansRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IUserLisansRepository, UserLisansRepository>();
             services.AddScoped<IWooCommerceDataRepository, WooCommerceDataRepository>();
 
 
@@ -121,18 +118,18 @@ namespace HepsiTools
             services.AddTransient<IValidator<ChangePasswordModel>, ChangePasswordValidator>();
             services.AddTransient<IValidator<ForgetPasswordModel>, ForgetPasswordValidator>();
             services.AddTransient<IValidator<UserModel>, UserValidator>();
-            services.AddTransient<IValidator<LisansModel>, LisansModelValidator>();
-            services.AddTransient<IValidator<UserLisansModel>, UserLisansModelValidator>();
-            services.AddTransient<IValidator<WooCommerceModel>, WooCommerceModelValidator>();
-            services.AddTransient<IValidator<OrderModel>, OrderModelValidator>();
+            services.AddTransient<IValidator<WooCommerceInsertModel>, WooCommerceInsertModelValidator>();
+            services.AddTransient<IValidator<CompanyInsertModel>, CompanyInsertModelValidator>();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             app.UseMiddleware<ErrorHandling>();
 
-            DataSeeding.Seed(app);
+            DataSeeding.Seed(userManager,roleManager);
 
             if (env.IsDevelopment())
             {

@@ -4,7 +4,7 @@ using HepsiTools.GenericRepositories.Concrate;
 
 namespace HepsiTools.Business.Concrate
 {
-    public class ProductRepository : GenericRepository<Product>, IProductRepository
+    public class CompanyRepository : GenericRepository<Company>, ICompanyRepository
     {
     }
 }

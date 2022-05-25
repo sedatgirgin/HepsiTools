@@ -30,51 +30,20 @@ namespace HepsiTools.DataAccess
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-        
-            modelBuilder.Entity<User>().HasMany(I => I.UserLisans).WithOne(I => I.User).HasForeignKey(I => I.UserId).OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Lisans>().HasMany(I => I.UserLisans).WithOne(I => I.Lisans).HasForeignKey(I => I.LisansId).OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<UserLisans>().HasIndex(I => new
-            {
-                I.UserId,
-                I.LisansId,
-                I.IsActive
-            }).IsUnique();
-
-
+            modelBuilder.Entity<User>().HasMany(I => I.Lisans).WithOne(I => I.User).HasForeignKey(I => I.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<User>().HasMany(I => I.Companys).WithOne(I => I.User).HasForeignKey(I => I.UserId).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<User>().HasMany(I => I.WooCommerceDatas).WithOne(I => I.User).HasForeignKey(I => I.UserId).OnDelete(DeleteBehavior.Cascade);
-
-
-            modelBuilder.Entity<User>().HasMany(I => I.ConnectionInfo).WithOne(I => I.User).HasForeignKey(I => I.UserId).OnDelete(DeleteBehavior.Cascade);
-
-
-            modelBuilder.Entity<User>().HasMany(I => I.ConnectionInfo).WithOne(I => I.User).HasForeignKey(I => I.UserId).OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<WooCommerceData>().HasMany(I => I.Products).WithOne(I => I.WooCommerceData).HasForeignKey(I => I.WooCommerceDataId).OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<WooCommerceData>().HasMany(I => I.Orders).WithOne(I => I.WooCommerceData).HasForeignKey(I => I.WooCommerceDataId).OnDelete(DeleteBehavior.Cascade);
-
-
-            modelBuilder.Entity<CompetitionCompany>();
-
-            modelBuilder.Entity<ConnectionInfo>().HasMany(I => I.CompetitionAnalyses).WithOne(I => I.ConnectionInfo).HasForeignKey(I => I.ConnectionInfoId).OnDelete(DeleteBehavior.Cascade);
-
-
-
+            modelBuilder.Entity<Company>().HasMany(I => I.CompetitionAnalyses).WithOne(I => I.Company).HasForeignKey(I => I.CompanyId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<CompetitionAnalyses>().HasMany(I => I.CompetitionAnalysesHistories).WithOne(I => I.CompetitionAnalyses).HasForeignKey(I => I.CompetitionAnalysesId).OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(modelBuilder);
         }
 
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<CompetitionCompany> CompetitionCompany { get; set; }
-        public virtual DbSet<Lisans> Lisans { get; set; }
-        public virtual DbSet<Order> Order { get; set; }
-        public virtual DbSet<UserLisans> UserLisans { get; set; }
+        public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<CompetitionAnalyses> CompetitionAnalyses { get; set; }
-        public virtual DbSet<ConnectionInfo> ConnectionInfo { get; set; }
-        public virtual DbSet<WooCommerceData> WooCommerceData { get; set; }
+        public virtual DbSet<CompetitionAnalysesHistory> CompetitionAnalysesHistory { get; set; }
         public virtual DbSet<ErrorLog> ErrorLog { get; set; }
-
-
+        public virtual DbSet<Lisans> Lisans { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<WooCommerceData> WooCommerceData { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using HepsiTools.GenericRepositories.Abstract;
 
 namespace HepsiTools.Business.Abstract
 {
-    public interface IConnectionInfoRepository : IGenericRepository<ConnectionInfo>
+    public interface ICompanyRepository : IGenericRepository<Company>
     {
     }
 }

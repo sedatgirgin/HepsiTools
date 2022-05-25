@@ -1,11 +1,11 @@
 ﻿using HepsiTools.Business.Abstract;
-using HepsiTools.Models;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 using MimeKit;
 using System.IO;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using HepsiTools.Helper;
 
 namespace HepsiTools.Business.Concrate
 {

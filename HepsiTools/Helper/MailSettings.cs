@@ -1,4 +1,4 @@
-﻿namespace HepsiTools.Models
+﻿namespace HepsiTools.Helper
 {
     public class MailSettings
     {

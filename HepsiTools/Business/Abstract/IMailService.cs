@@ -1,4 +1,4 @@
-﻿using HepsiTools.Models;
+﻿using HepsiTools.Helper;
 using System.Threading.Tasks;
 
 namespace HepsiTools.Business.Abstract

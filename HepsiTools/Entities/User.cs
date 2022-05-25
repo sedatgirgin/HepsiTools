@@ -7,10 +7,10 @@ namespace HepsiTools.Entities
 {
     public class User : IdentityUser
     {
-        public string Name { get; set; }
-        public string SurName { get; set; }
-        public List<UserLisans> UserLisans { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public List<Lisans> Lisans { get; set; }
         public List<WooCommerceData> WooCommerceDatas { get; set; }
-        public List<ConnectionInfo> ConnectionInfo { get; set; }
+        public List<Company> Companys { get; set; }
     }
 }

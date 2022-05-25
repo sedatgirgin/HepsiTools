@@ -4,6 +4,7 @@ using HepsiTools.ResultMessages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WooCommerceNET;
 using WooCommerceNET.WooCommerce.v3;
@@ -21,50 +22,53 @@ namespace HepsiTools.Controllers
             _wooCommerceDataRepository = wooCommerceDataRepository;
         }
 
-        [HttpPost("InsertWooCommerce")]
-        public async Task<IActionResult> InsertWooCommerceAsync(WooCommerceModel model)
+        [HttpPost("AddWooCommerce")]
+        public async Task<IActionResult> AddWooCommerceAsync(WooCommerceInsertModel model)
         {
             if (!ModelState.IsValid)
                 return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
+
+            var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = _wooCommerceDataRepository.Insert(new Entities.WooCommerceData()
             {
                 Consumer_key = model.Consumer_key,
                 Consumer_secret = model.Consumer_secret,
                 Name = model.Name,
-                UserId = model.UserId,
+                UserId = _userId,
                 StoreURL = model.StoreURL
             });
 
             if (!result.Equals(null))
             {
-                return new Result("Başarılı");
+                return new Result("Başarılı", result);
             }
             return new ErrorResult("Lütfen bilgilerinizi kontrol edin.");
         }
 
 
         [HttpGet("GetWooCommerces")]
-        public async Task<IActionResult> GetWooCommercesAsync(string userId)
+        public async Task<IActionResult> GetWooCommercesAsync()
         {
-            if (string.IsNullOrEmpty(userId))
-                return new ErrorResult("Hatalı istek");
+            var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var result = _wooCommerceDataRepository.GetList(i => i.UserId == userId);
+            var result = _wooCommerceDataRepository.GetList(i => i.UserId == _userId);
 
             return new Result("Başarılı", new { WooCommerces = result });
         }
 
-        [HttpGet("GetOrders")]
-        public async Task<IActionResult> GetOrdersAsync(OrderModel model)
+        [HttpPost("GetOrders")]
+        public async Task<IActionResult> GetOrdersAsync(int wooCommerceId)
         {
-            if (!ModelState.IsValid)
-                return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
+            if (wooCommerceId == 0)
+                return new ErrorResult("Hatalı istek", BadRequest());
 
-            var result = _wooCommerceDataRepository.Get(i => i.UserId == model.UserId && i.Id == model.WooCommerceId);
+            var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = _wooCommerceDataRepository.Get(i => i.UserId == _userId && i.Id == wooCommerceId);
 
             if (result == null)
-                return new ErrorResult("Hatalı istek");
+                return new ErrorResult("WooCommerce Not Found");
 
             //https://naturalbastet.com/wp-json/wc/v3/
             RestAPI restClient = new RestAPI(result.StoreURL, result.Consumer_key, result.Consumer_secret);
@@ -78,8 +82,15 @@ namespace HepsiTools.Controllers
             {
                 if (item.line_items.Count>0 )
                 {
-                   var data = products.Find(i => i.id == item.line_items[0].product_id).images[0].src;
-                    response.Add(new { item, image = data });
+                    var data = products.Find(i => i.id == item.line_items[0].product_id);
+                    if (data !=null)
+                    {
+                        response.Add(new { item, image = data.images[0].src });
+                    }
+                    else
+                    {
+                        response.Add(new { item, image = "" });
+                    }
                 }
             }
 
