@@ -1,4 +1,6 @@
-﻿using HepsiTools.Business.Abstract;
+﻿using AutoMapper;
+using HepsiTools.Business.Abstract;
+using HepsiTools.Entities;
 using HepsiTools.Models;
 using HepsiTools.ResultMessages;
 using Microsoft.AspNetCore.Authorization;
@@ -16,14 +18,16 @@ namespace HepsiTools.Controllers
     [ApiController]
     public class WooCommerceController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IWooCommerceDataRepository _wooCommerceDataRepository;
-        public WooCommerceController(IWooCommerceDataRepository wooCommerceDataRepository)
+        public WooCommerceController(IWooCommerceDataRepository wooCommerceDataRepository, IMapper mapper)
         {
             _wooCommerceDataRepository = wooCommerceDataRepository;
+            _mapper = mapper;
         }
 
-        [HttpPost("AddWooCommerce")]
-        public async Task<IActionResult> AddWooCommerceAsync(WooCommerceInsertModel model)
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddAsync(WooCommerceInsertModel model)
         {
             if (!ModelState.IsValid)
                 return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
@@ -41,20 +45,61 @@ namespace HepsiTools.Controllers
 
             if (!result.Equals(null))
             {
-                return new Result("Başarılı", result);
+                return new Result("Başarılı", new { WooCommerce = _mapper.Map<WooCommerceInsertModel>(result) });
             }
             return new ErrorResult("Lütfen bilgilerinizi kontrol edin.");
         }
 
 
-        [HttpGet("GetWooCommerces")]
-        public async Task<IActionResult> GetWooCommercesAsync()
+        [HttpGet("Update")]
+        public async Task<IActionResult> UpdateAsync(WooCommercenModel model)
+        {
+
+            if (!ModelState.IsValid)
+                return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
+
+            var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = _wooCommerceDataRepository.Get(i => i.UserId == _userId && i.Id == model.Id);
+            if (result != null)
+            {
+                result.Name = model.Name;
+                result.Consumer_key = model.Consumer_key;
+                result.Consumer_secret = model.Consumer_secret;
+                result.StoreURL = model.StoreURL;
+
+                _wooCommerceDataRepository.Update(result);
+                return new Result("Başarılı", new { WooCommerces = model });
+            }
+            return new ErrorResult("Hatalı istek");
+        }
+
+        [HttpGet("Delete")]
+        public async Task<IActionResult> DeleteAsync(int wooCommerceId)
+        {
+            if (!ModelState.IsValid)
+                return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
+
+            var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var result = _wooCommerceDataRepository.Get(i => i.UserId == _userId && i.Id == wooCommerceId);
+            if (result != null)
+            {
+                _wooCommerceDataRepository.Delete(result);
+                return new Result("Başarılı");
+            }
+            return new ErrorResult("Hatalı istek");
+        }
+
+
+        [HttpGet("GetList")]
+        public async Task<IActionResult> GetListAsync()
         {
             var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var result = _wooCommerceDataRepository.GetList(i => i.UserId == _userId);
 
-            return new Result("Başarılı", new { WooCommerces = result });
+            return new Result("Başarılı", new { WooCommerces = _mapper.Map<WooCommerceInsertModel>(result) });
         }
 
         [HttpPost("GetOrders")]

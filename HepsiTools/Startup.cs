@@ -1,5 +1,8 @@
+using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using HepsiTools.AutoMapper;
+using HepsiTools.Business;
 using HepsiTools.Business.Abstract;
 using HepsiTools.Business.Concrate;
 using HepsiTools.DataAccess;
@@ -121,7 +124,16 @@ namespace HepsiTools
             services.AddTransient<IValidator<WooCommerceInsertModel>, WooCommerceInsertModelValidator>();
             services.AddTransient<IValidator<CompanyInsertModel>, CompanyInsertModelValidator>();
 
-            
+
+            var mappingConfig = new MapperConfiguration(mc => {
+                mc.AddProfile(new ToolsProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddHostedService<CompetitionBackgroundService>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

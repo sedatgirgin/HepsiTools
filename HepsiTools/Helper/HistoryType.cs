@@ -2,7 +2,8 @@
 {
     public enum HistoryType
     {
-        StatusChange,
-        PriceChange
+        Other=1,
+        StatusChange = 2,
+        PriceChange = 3
     }
 }

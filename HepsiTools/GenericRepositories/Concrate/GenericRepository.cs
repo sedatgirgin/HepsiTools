@@ -13,7 +13,7 @@ namespace HepsiTools.GenericRepositories.Concrate
     public class GenericRepository<T> : RepositoryBase, IGenericRepository<T> where T : class, new()
     {
 
-        DbSet<T> entities;
+        public DbSet<T> entities;
         public GenericRepository()
         {
             entities = _context.Set<T>();
