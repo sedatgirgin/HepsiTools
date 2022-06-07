@@ -135,3 +135,7 @@ C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
 C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\WooCommerce.NET.dll
 C:\Projects\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.csproj.AssemblyReference.cache
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\AutoMapper.dll
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+C:\Projects\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll

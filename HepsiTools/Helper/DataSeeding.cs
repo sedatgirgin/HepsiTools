@@ -12,46 +12,59 @@ namespace HepsiTools.Helper
     public static class DataSeeding
     {
         public static void Seed(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
-        {   
-            DataSeeding.SeedRoles(roleManager);
-            DataSeeding.SeedUsers(userManager);
-        }
-
-        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
             if (!roleManager.RoleExistsAsync(RoleType.User.ToString()).Result)
             {
                 IdentityRole role = new IdentityRole();
                 role.Name = RoleType.User.ToString();
-                roleManager.CreateAsync(role);
+                IdentityResult roleResult = roleManager.
+                CreateAsync(role).Result;
             }
 
             if (!roleManager.RoleExistsAsync(RoleType.Admin.ToString()).Result)
             {
                 IdentityRole role = new IdentityRole();
                 role.Name = RoleType.Admin.ToString();
-                roleManager.CreateAsync(role);
+                IdentityResult roleResult = roleManager.
+                CreateAsync(role).Result;
             }
         }
 
-        public static void SeedUsers(UserManager<User> userManager)
-        {
-            if (userManager.FindByEmailAsync(SeedAdmin.Email).Result == null)
-            {
-                User user = new User();
-                user.UserName = SeedAdmin.Email;
-                user.Email = SeedAdmin.Email;
-                user.FirstName = SeedAdmin.Name;
-                user.LastName = SeedAdmin.SurName;
+        //public static async void SeedRoles(RoleManager<IdentityRole> roleManager)
+        //{
+        //   if (!roleManager.RoleExistsAsync(RoleType.User.ToString()).Result)
+        //    {
+        //        IdentityRole role = new IdentityRole();
+        //        role.Name = RoleType.User.ToString();
+        //        roleManager.CreateAsync(role).Result;
+        //    }
 
-                IdentityResult result = userManager.CreateAsync(user, SeedAdmin.NewPassword).Result;
+        //    if (!roleManager.RoleExistsAsync(RoleType.Admin.ToString()).Result)
+        //    {
+        //        IdentityRole role = new IdentityRole();
+        //        role.Name = RoleType.Admin.ToString();
+        //        await roleManager.CreateAsync(role);
+        //    }
+        //}
 
-                if (result.Succeeded)
-                {
-                    userManager.AddToRoleAsync(user, RoleType.Admin.ToString()).Wait();
-                }
-            }
-        }
+        //public static void SeedUsers(UserManager<User> userManager)
+        //{
+        //    if (userManager.FindByEmailAsync(SeedAdmin.Email).Result == null)
+        //    {
+        //        User user = new User();
+        //        user.UserName = SeedAdmin.Email;
+        //        user.Email = SeedAdmin.Email;
+        //        user.FirstName = SeedAdmin.Name;
+        //        user.LastName = SeedAdmin.SurName;
+
+        //        IdentityResult result = userManager.CreateAsync(user, SeedAdmin.NewPassword).Result;
+
+        //        if (result.Succeeded)
+        //        {
+        //            userManager.AddToRoleAsync(user, RoleType.Admin.ToString()).Wait();
+        //        }
+        //    }
+        //}
 
     }
 }

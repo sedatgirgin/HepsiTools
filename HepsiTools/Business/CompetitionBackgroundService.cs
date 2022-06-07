@@ -32,6 +32,7 @@ namespace HepsiTools.Business
 
             while (data.Count > 0)
             {
+                //lisansıda kontrol et ki lisansı biten kişini işlemini hala yapıyor olmayalım
                 //html parser yaz
                 //fiyat deglştirme algorritması ekle
                 //history tablosunu doldur
