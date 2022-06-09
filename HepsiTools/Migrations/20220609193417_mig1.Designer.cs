@@ -3,15 +3,17 @@ using System;
 using HepsiTools.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HepsiTools.Migrations
 {
     [DbContext(typeof(ToolDbContext))]
-    partial class ToolDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220609193417_mig1")]
+    partial class mig1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,8 +78,8 @@ namespace HepsiTools.Migrations
                     b.Property<double>("LowestPrice")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("Multiple")
-                        .HasColumnType("double precision");
+                    b.Property<string>("Multiple")
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");

@@ -27,6 +27,7 @@ namespace HepsiTools.AutoMapper
 
             CreateMap<CompetitionAnalysesModel, CompetitionAnalyses>().ForMember(m => m.StatusType, opt => opt.MapFrom(x => (StatusType)x.StatusType));
             CreateMap<CompetitionAnalyses, CompetitionAnalysesModel>().ForMember(m => m.StatusType, opt => opt.MapFrom(x => (int)x.StatusType)); ;
+
         }
     }
 

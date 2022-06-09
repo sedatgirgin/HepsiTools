@@ -1,54 +1,85 @@
 ﻿using HepsiTools.Business.Abstract;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace HepsiTools.Business
 {
-    public class CompetitionBackgroundService : IHostedService, IDisposable
+    public class CompetitionBackgroundService : BackgroundService
     {
-        private readonly ICompetitionAnalsesHistoryRepository _competitionAnalsesHistoryRepository;
-        private readonly ICompanyRepository _companyRepository;
-        private readonly ICompetitionAnalysesRepository _competitionAnalysesRepository;
-        private Timer _timer = null;
+        private readonly ILogger<CompetitionBackgroundService> _logger;
+        private System.Timers.Timer _timer;
 
-        public CompetitionBackgroundService(ICompetitionAnalsesHistoryRepository competitionAnalsesHistoryRepository, ICompanyRepository companyRepository, ICompetitionAnalysesRepository competitionAnalysesRepository)
+        public CompetitionBackgroundService(IServiceProvider services,
+            ILogger<CompetitionBackgroundService> logger)
         {
-            _competitionAnalsesHistoryRepository = competitionAnalsesHistoryRepository;
-            _companyRepository = companyRepository;
-            _competitionAnalysesRepository = competitionAnalysesRepository;
-        }
-        public Task StartAsync(CancellationToken stoppingToken)
-        {
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,TimeSpan.FromMinutes(15));
-
-            return Task.CompletedTask;
+            Services = services;
+            _logger = logger;
         }
 
-        private void DoWork(object? state)
-        {
-            var data = _competitionAnalysesRepository.GetList(i => i.StatusType != Helper.StatusType.Cancel && i.StartDate > DateTime.Now && i.EndDate < DateTime.Now);
+        public IServiceProvider Services { get; }
 
-            while (data.Count > 0)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation(
+                "Consume Scoped Service Hosted Service running.");
+
+            _timer = new System.Timers.Timer();
+            _timer.Enabled = true;
+            _timer.Interval = 90000;
+            _timer.Elapsed += Handler;
+        }
+
+        private void Handler(object sender, System.Timers.ElapsedEventArgs args)
+        {
+            using (var scope = Services.CreateScope())
             {
-                //lisansıda kontrol et ki lisansı biten kişini işlemini hala yapıyor olmayalım
-                //html parser yaz
-                //fiyat deglştirme algorritması ekle
-                //history tablosunu doldur
+                var _competitionAnalsesHistoryRepository =
+                    scope.ServiceProvider
+                        .GetRequiredService<ICompetitionAnalsesHistoryRepository>();
+
+
+                var _companyRepository =
+                 scope.ServiceProvider
+                     .GetRequiredService<ICompanyRepository>();
+
+
+                var _competitionAnalysesRepository =
+                 scope.ServiceProvider
+                     .GetRequiredService<ICompetitionAnalysesRepository>();
+
+                var _LisansRepository =
+                scope.ServiceProvider
+                    .GetRequiredService<ILisansRepository>();
+
+                var lisansList = _LisansRepository.GetList(i => i.IsActive == true && i.EndDate < DateTime.Now);
+
+
+                var data = _competitionAnalysesRepository.GetList(i => i.StatusType != Helper.StatusType.Cancel && i.StatusType != Helper.StatusType.TimeIsUp && i.StartDate > DateTime.Now && i.EndDate < DateTime.Now);
+
+                while (data.Count > 0)
+                {
+
+                    //lisansıda kontrol et ki lisansı biten kişini işlemini hala yapıyor olmayalım
+                    //html parser yaz
+                    //fiyat deglştirme algorritması ekle
+                    //history tablosunu doldur
+                }
             }
         }
 
-        public Task StopAsync(CancellationToken stoppingToken)
+        public void StartPublishing()
         {
-            _timer?.Change(Timeout.Infinite, 0);
-
-            return Task.CompletedTask;
+            _timer.Start();
         }
 
-        public void Dispose()
+        public void StopPublishing()
         {
-            _timer?.Dispose();
+            _timer.Stop();
         }
+
     }
 }

@@ -8,11 +8,9 @@ namespace HepsiTools.Validation
         public CompanyInsertModelValidator()
         {
             RuleFor(x => x.CompanyType).NotEmpty();
-            RuleFor(x => x.SupplierId).NotEmpty().MinimumLength(5);
-            RuleFor(x => x.UserName).NotEmpty().MinimumLength(5);
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(5);
-            RuleFor(x => x.CargoCompanyId).NotEmpty().MinimumLength(5);
-            RuleFor(x => x.CustomResourceName).NotEmpty().MinimumLength(5);
+            RuleFor(x => x.SupplierId).NotEmpty();
+            RuleFor(x => x.UserName).NotEmpty();
+            RuleFor(x => x.Password).NotEmpty();
         }  
     }
 }

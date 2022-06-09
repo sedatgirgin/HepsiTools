@@ -5,6 +5,7 @@ using HepsiTools.Models;
 using HepsiTools.ResultMessages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,10 +21,13 @@ namespace HepsiTools.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IWooCommerceDataRepository _wooCommerceDataRepository;
-        public WooCommerceController(IWooCommerceDataRepository wooCommerceDataRepository, IMapper mapper)
+        private readonly IConfiguration _config;
+
+        public WooCommerceController(IConfiguration config, IWooCommerceDataRepository wooCommerceDataRepository, IMapper mapper)
         {
             _wooCommerceDataRepository = wooCommerceDataRepository;
             _mapper = mapper;
+            _config = config;
         }
 
         [HttpPost("Add")]
@@ -45,7 +49,7 @@ namespace HepsiTools.Controllers
 
             if (!result.Equals(null))
             {
-                return new Result("Başarılı", new { WooCommerce = _mapper.Map<WooCommerceInsertModel>(result) });
+                return new Result("Başarılı", result);
             }
             return new ErrorResult("Lütfen bilgilerinizi kontrol edin.");
         }
@@ -63,13 +67,25 @@ namespace HepsiTools.Controllers
             var result = _wooCommerceDataRepository.Get(i => i.UserId == _userId && i.Id == model.Id);
             if (result != null)
             {
-                result.Name = model.Name;
-                result.Consumer_key = model.Consumer_key;
-                result.Consumer_secret = model.Consumer_secret;
-                result.StoreURL = model.StoreURL;
+                if (!string.IsNullOrEmpty(model.Name))
+                {
+                    result.Name = model.Name;
+                }
+                if (!string.IsNullOrEmpty(model.Consumer_key))
+                {
+                    result.Consumer_key = model.Consumer_key;
+                }
+                if (!string.IsNullOrEmpty(model.Consumer_secret))
+                {
+                    result.Consumer_secret = model.Consumer_secret;
+                }
+                if (!string.IsNullOrEmpty(model.StoreURL))
+                {
+                    result.StoreURL = model.StoreURL;
+                }
 
                 _wooCommerceDataRepository.Update(result);
-                return new Result("Başarılı", new { WooCommerces = model });
+                return new Result("Başarılı", result);
             }
             return new ErrorResult("Hatalı istek");
         }
@@ -77,8 +93,8 @@ namespace HepsiTools.Controllers
         [HttpGet("Delete")]
         public async Task<IActionResult> DeleteAsync(int wooCommerceId)
         {
-            if (!ModelState.IsValid)
-                return new ErrorResult("Hatalı istek", BadRequest(ModelState).Value);
+            if (wooCommerceId == 0)
+                return new ErrorResult("Hatalı istek", BadRequest());
 
             var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -99,7 +115,7 @@ namespace HepsiTools.Controllers
 
             var result = _wooCommerceDataRepository.GetList(i => i.UserId == _userId);
 
-            return new Result("Başarılı", new { WooCommerces = _mapper.Map<WooCommerceInsertModel>(result) });
+            return new Result("Başarılı", result);
         }
 
         [HttpPost("GetOrders")]
@@ -115,8 +131,8 @@ namespace HepsiTools.Controllers
             if (result == null)
                 return new ErrorResult("WooCommerce Not Found");
 
-            //https://naturalbastet.com/wp-json/wc/v3/
-            RestAPI restClient = new RestAPI(result.StoreURL, result.Consumer_key, result.Consumer_secret);
+            string targetUrl = result.StoreURL + _config["WooCommerceUrl"];
+            RestAPI restClient = new RestAPI(targetUrl, result.Consumer_key, result.Consumer_secret);
 
             WCObject wCObject = new WCObject(restClient);
             var orders = wCObject.Order.GetAll().Result;
