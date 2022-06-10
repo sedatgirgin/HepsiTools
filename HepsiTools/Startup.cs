@@ -122,7 +122,10 @@ namespace HepsiTools
             services.AddTransient<IValidator<ForgetPasswordModel>, ForgetPasswordValidator>();
             services.AddTransient<IValidator<UserModel>, UserValidator>();
             services.AddTransient<IValidator<WooCommerceInsertModel>, WooCommerceInsertModelValidator>();
+           
             services.AddTransient<IValidator<CompanyInsertModel>, CompanyInsertModelValidator>();
+            services.AddTransient<IValidator<CompetitionAnalysesInsertModel>, CompetitionAnalysesInsertModelValidator>();
+            services.AddTransient<IValidator<CompetitionAnalysesUpdateModel>, CompetitionAnalysesUpdateModelValidator>();
 
 
             var mappingConfig = new MapperConfiguration(mc => {
@@ -131,7 +134,8 @@ namespace HepsiTools
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            //services.AddHostedService<CompetitionBackgroundService>();
+            services.AddHostedService<CompetitionBackgroundService>();
+            //services.AddHostedService<TimedHostedService>();
 
 
         }

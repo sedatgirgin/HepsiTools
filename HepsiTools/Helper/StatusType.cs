@@ -6,5 +6,6 @@
         DecliningStock = 2,
         OnHold = 3,
         Cancel = 4,
+        TimeIsUp = 5
     }
 }
