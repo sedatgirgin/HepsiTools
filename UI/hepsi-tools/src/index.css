@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  font-family: 'Inter', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: local('Inter'), url(static/fonts/Inter-Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 900;
+  src: local('Inter'), url(static/fonts/Inter-Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: 600;
+  src: local('Inter'), url(static/fonts/Inter-Black.ttf) format('truetype');
+}
