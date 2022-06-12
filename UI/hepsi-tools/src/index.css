@@ -36,6 +36,11 @@ input{
   border-radius: 6px;
 }
 
+input[type=checkbox]{
+  width: 16px;
+  height: 16px;
+}
+
 input:hover{
   /* White */
   background: #FFFFFF;
