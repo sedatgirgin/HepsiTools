@@ -1,44 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="552fcef0-9fa9-460b-8d53-22d6db046b55" name="Changes" comment="bismillah">
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/App.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/App.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/HepsiToolsRouter.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/components/header/Header.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/components/header/Header.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/components/sidebar/Sidebar.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/components/sidebar/Sidebar.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/index.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/logo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/Panel.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/Panel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/rekabet/Rekabet.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/rekabet/Rekabet.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/reportWebVitals.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/setupTests.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/assets/Logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/assets/Notification icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/assets/Rectangle 1650.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/assets/Subtract.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/assets/active.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/assets/help.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-Black.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-ExtraBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-ExtraLight.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-Light.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-Medium.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-SemiBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/fonts/Inter-Thin.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+    <list default="true" id="552fcef0-9fa9-460b-8d53-22d6db046b55" name="Changes" comment="init ui">
+      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/rekabet/Compotition.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/rekabet/Compotition.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/rekabet/table/CompotitionTable.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/rekabet/table/CompotitionTable.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hepsi-tools/src/static/assets/table-icon.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hepsi-tools/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/hepsi-tools/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hepsi-tools/src/pages/Panel.js" beforeDir="false" afterPath="$PROJECT_DIR$/hepsi-tools/src/pages/Panel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hepsi-tools/src/pages/rekabet/Rekabet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hepsi-tools/src/pages/rekabet/Rekabet.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +19,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Naim YÜREK &lt;naim.yurek@hotmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -127,7 +105,16 @@
       <workItem from="1654877299037" duration="9778000" />
       <workItem from="1654896931958" duration="10750000" />
       <workItem from="1654977140651" duration="9042000" />
+      <workItem from="1654986358856" duration="6929000" />
     </task>
+    <task id="LOCAL-00001" summary="init ui">
+      <created>1654986607100</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1654986607100</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,8 +133,12 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Merge branch 'main' of https://github.com/sedatgirgin/HepsiTools" />
     <MESSAGE value="bismillah" />
-    <option name="LAST_COMMIT_MESSAGE" value="bismillah" />
+    <MESSAGE value="init ui" />
+    <option name="LAST_COMMIT_MESSAGE" value="init ui" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
