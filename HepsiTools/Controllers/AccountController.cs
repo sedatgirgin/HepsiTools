@@ -92,7 +92,7 @@ namespace HepsiTools.Controllers
                     lisans.UserId = currentUser.Id;
                     lisans.IsActive = true;
                     lisans.StartDate = DateTime.Now;
-                    lisans.EndDate = DateTime.Now.AddYears(15);
+                    lisans.EndDate = DateTime.Now.AddDays(15);
                     await _lisansRepository.InsertAsync(lisans);
 
                     return new Result(identityUserResult.Succeeded.ToString());

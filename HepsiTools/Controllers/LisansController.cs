@@ -40,7 +40,7 @@ namespace HepsiTools.Controllers
                         return new Result("Lisansınızın süresi dolmak üzere", new { ExpireDay = (activeLisans.EndDate.Day - DateTime.Now.Day), LisansStatus  = LisansExpirateType.LicenseExpiresSoon });
                     }
 
-                    return new Result("Başarılı",new{ ExpireDay = 0, LisansStatus = LisansExpirateType.Successful });
+                    return new Result("Başarılı",new{ ExpireDay = (activeLisans.EndDate.Day - DateTime.Now.Day), LisansStatus = LisansExpirateType.Successful });
                 }
                 else
                 {
