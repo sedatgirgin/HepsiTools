@@ -1,0 +1,23 @@
+.compotition-table-wrapper{
+    width: 100%;
+    overflow-x: auto;
+}
+
+.compotition-table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.compotition-table-header{
+    background: rgba(247, 249, 252, 0.8);
+    backdrop-filter: blur(8px);
+
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+
+    color: #687182;
+    height: 34px;
+}
