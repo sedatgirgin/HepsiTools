@@ -281,3 +281,9 @@ D:\Project\HepsiTools\HepsiTools\obj\Debug\net5.0\ref\HepsiTools.dll
 D:\Project\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.pdb
 D:\Project\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.genruntimeconfig.cache
 D:\Project\HepsiTools\HepsiTools\bin\Debug\net5.0\HtmlAgilityPack.dll
+D:\Project\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\Project\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\Project\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.Extensions.FileProviders.Embedded.dll
+D:\Project\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
+D:\Project\HepsiTools\HepsiTools\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
+D:\Project\HepsiTools\HepsiTools\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll

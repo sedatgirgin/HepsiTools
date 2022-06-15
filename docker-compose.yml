@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  hepsitools:
+    image: ${DOCKER_REGISTRY-}hepsitools
+    build:
+      context: .
+      dockerfile: HepsiTools/Dockerfile
