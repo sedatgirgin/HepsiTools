@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\HepsiTools\\HepsiTools\\HepsiTools.csproj": {}
+    "D:\\Project\\HepsiTools\\HepsiTools\\HepsiTools.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\HepsiTools\\HepsiTools\\HepsiTools.csproj": {
+    "D:\\Project\\HepsiTools\\HepsiTools\\HepsiTools.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\HepsiTools\\HepsiTools\\HepsiTools.csproj",
+        "projectUniqueName": "D:\\Project\\HepsiTools\\HepsiTools\\HepsiTools.csproj",
         "projectName": "HepsiTools",
-        "projectPath": "C:\\Projects\\HepsiTools\\HepsiTools\\HepsiTools.csproj",
-        "packagesPath": "C:\\Users\\sedat\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\HepsiTools\\HepsiTools\\obj\\",
+        "projectPath": "D:\\Project\\HepsiTools\\HepsiTools\\HepsiTools.csproj",
+        "packagesPath": "C:\\Users\\sedat.girgin\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\HepsiTools\\HepsiTools\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\sedat\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sedat.girgin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -47,6 +47,10 @@
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.0.1, )"
+            },
+            "HtmlAgilityPack": {
+              "target": "Package",
+              "version": "[1.11.43, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -131,7 +135,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-rc.2.21505.57\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.406\\RuntimeIdentifierGraph.json"
         }
       }
     }

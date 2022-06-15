@@ -7,6 +7,7 @@ using HepsiTools.ResultMessages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WooCommerceNET;
 using WooCommerceNET.WooCommerce.v3;
@@ -224,9 +226,11 @@ namespace HepsiTools.Controllers
 
                 string result = await content.ReadAsStringAsync();
 
+                CompetitionProductModel productList = JsonConvert.DeserializeObject<CompetitionProductModel>(result);
+
                 if (result != null)
                 {
-                    return new Result("Başarılı", result);
+                    return new Result("Başarılı", productList);
                 }
             }
 
