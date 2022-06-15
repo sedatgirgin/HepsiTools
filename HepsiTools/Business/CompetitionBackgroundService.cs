@@ -1,4 +1,5 @@
 ﻿using HepsiTools.Business.Abstract;
+using HepsiTools.Business.Concrate;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -29,45 +30,29 @@ namespace HepsiTools.Business
 
             _timer = new System.Timers.Timer();
             _timer.Enabled = true;
-            _timer.Interval = 90000;
+            _timer.Interval = 10000;
             _timer.Elapsed += Handler;
         }
 
         private void Handler(object sender, System.Timers.ElapsedEventArgs args)
         {
-            using (var scope = Services.CreateScope())
+            ICompetitionAnalsesHistoryRepository _competitionAnalsesHistoryRepository = new CompetitionAnalsesHistoryRepository();
+            ICompanyRepository _companyRepository = new CompanyRepository();
+            ICompetitionAnalysesRepository _competitionAnalysesRepository = new CompetitionAnalysesRepository();
+            ILisansRepository _LisansRepository = new LisansRepository();
+
+            var lisansList = _LisansRepository.GetList(i => i.IsActive == true && i.EndDate > DateTime.Now);
+
+
+            var data = _competitionAnalysesRepository.GetList(i => i.StatusType != Helper.StatusType.Cancel && i.StartDate < DateTime.Now && i.EndDate > DateTime.Now);
+
+            while (data.Count > 0)
             {
-                var _competitionAnalsesHistoryRepository =
-                    scope.ServiceProvider
-                        .GetRequiredService<ICompetitionAnalsesHistoryRepository>();
 
-
-                var _companyRepository =
-                 scope.ServiceProvider
-                     .GetRequiredService<ICompanyRepository>();
-
-
-                var _competitionAnalysesRepository =
-                 scope.ServiceProvider
-                     .GetRequiredService<ICompetitionAnalysesRepository>();
-
-                var _LisansRepository =
-                scope.ServiceProvider
-                    .GetRequiredService<ILisansRepository>();
-
-                var lisansList = _LisansRepository.GetList(i => i.IsActive == true && i.EndDate < DateTime.Now);
-
-
-                var data = _competitionAnalysesRepository.GetList(i => i.StatusType != Helper.StatusType.Cancel && i.StatusType != Helper.StatusType.TimeIsUp && i.StartDate > DateTime.Now && i.EndDate < DateTime.Now);
-
-                while (data.Count > 0)
-                {
-
-                    //lisansıda kontrol et ki lisansı biten kişini işlemini hala yapıyor olmayalım
-                    //html parser yaz
-                    //fiyat deglştirme algorritması ekle
-                    //history tablosunu doldur
-                }
+                //lisansıda kontrol et ki lisansı biten kişini işlemini hala yapıyor olmayalım
+                //html parser yaz
+                //fiyat deglştirme algorritması ekle
+                //history tablosunu doldur
             }
         }
 

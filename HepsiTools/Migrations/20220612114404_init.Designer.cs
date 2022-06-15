@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HepsiTools.Migrations
 {
     [DbContext(typeof(ToolDbContext))]
-    [Migration("20220602085525_init")]
+    [Migration("20220612114404_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,8 +78,8 @@ namespace HepsiTools.Migrations
                     b.Property<double>("LowestPrice")
                         .HasColumnType("double precision");
 
-                    b.Property<string>("Multiple")
-                        .HasColumnType("text");
+                    b.Property<double>("Multiple")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Name")
                         .HasColumnType("text");
