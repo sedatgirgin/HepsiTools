@@ -134,7 +134,7 @@ namespace HepsiTools
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddHostedService<CompetitionBackgroundService>();
+           // services.AddHostedService<CompetitionBackgroundService>();
             //services.AddHostedService<TimedHostedService>();
 
 
