@@ -280,3 +280,4 @@ D:\Project\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.dll
 D:\Project\HepsiTools\HepsiTools\obj\Debug\net5.0\ref\HepsiTools.dll
 D:\Project\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.pdb
 D:\Project\HepsiTools\HepsiTools\obj\Debug\net5.0\HepsiTools.genruntimeconfig.cache
+D:\Project\HepsiTools\HepsiTools\bin\Debug\net5.0\HtmlAgilityPack.dll
