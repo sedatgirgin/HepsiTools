@@ -8,9 +8,10 @@ import {
     useHistory,
     useLocation
 } from "react-router-dom";
-import Panel from "./pages/Panel";
 import Login from "./pages/auth/login/Login";
+import {wrappedComponents} from './pages/wrapped/wrappedComponents'
 import Register from "./pages/auth/register/Register";
+import Panel from "./pages/Panel";
 
 // This example has 3 pages: a public page, a protected
 // page, and a login screen. In order to see the protected
@@ -36,6 +37,7 @@ export default function HepsiToolsRouter() {
                 <Route path="/register">
                     <Register/>
                 </Route>
+                <Route exact path='/' render={(routerProps) => <wrappedComponents.Panel protected {...routerProps} />}/>
             </Switch>
 
 
