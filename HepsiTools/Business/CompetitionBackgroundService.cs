@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 using System.Net;
 using HtmlAgilityPack;
 using System.Text;
+using System.Globalization;
+using Newtonsoft.Json;
+using HepsiTools.Models;
 
 namespace HepsiTools.Business
 {
@@ -37,17 +40,21 @@ namespace HepsiTools.Business
 
             _timer = new System.Timers.Timer();
             _timer.Enabled = true;
-            _timer.Interval = 10000;
+            _timer.Interval = 30000;
             _timer.Elapsed += Handler;
         }
 
-        private void Handler(object sender, System.Timers.ElapsedEventArgs args)
+        private async void Handler(object sender, System.Timers.ElapsedEventArgs args)
         {
             ICompetitionAnalsesHistoryRepository _competitionAnalsesHistoryRepository = new CompetitionAnalsesHistoryRepository();
             ICompanyRepository _companyRepository = new CompanyRepository();
             ICompetitionAnalysesRepository _competitionAnalysesRepository = new CompetitionAnalysesRepository();
             ILisansRepository _lisansRepository = new LisansRepository();
             IErrorRepository _errorRepository = new ErrorRepository();
+
+            NumberFormatInfo provider = new NumberFormatInfo();
+            provider.NumberDecimalSeparator = ".";
+            provider.NumberGroupSeparator = ",";
 
             try
             {
@@ -56,15 +63,15 @@ namespace HepsiTools.Business
                 foreach (var item in userLisans)
                 {
                     item.IsActive = false;
-                    _lisansRepository.Update(item);
+                    _lisansRepository.UpdateAsync(item);
 
                     var expireLisansCompetitionList = _competitionAnalysesRepository.GetCompetitionsByUserAsync(item.UserId);
 
                     foreach (var competition in expireLisansCompetitionList)
                     {
                         competition.StatusType = StatusType.Cancel;
-                        _competitionAnalysesRepository.Update(competition);
-                        _competitionAnalsesHistoryRepository.Insert(new CompetitionAnalysesHistory()
+                        _competitionAnalysesRepository.UpdateAsync(competition);
+                        _competitionAnalsesHistoryRepository.InsertAsync(new CompetitionAnalysesHistory()
                         {
                             HistoryType = HistoryType.StatusChange,
                             CompetitionAnalysesId = competition.Id,
@@ -78,8 +85,8 @@ namespace HepsiTools.Business
                 foreach (var item in endDateCompletedAnalysesList)
                 {
                     item.StatusType = StatusType.Cancel;
-                    _competitionAnalysesRepository.Update(item);
-                    _competitionAnalsesHistoryRepository.Insert(new CompetitionAnalysesHistory()
+                    _competitionAnalysesRepository.UpdateAsync(item);
+                    _competitionAnalsesHistoryRepository.InsertAsync(new CompetitionAnalysesHistory()
                     {
                         HistoryType = HistoryType.StatusChange,
                         CompetitionAnalysesId = item.Id,
@@ -87,64 +94,80 @@ namespace HepsiTools.Business
                     });
                 }
 
-
-
                 var analysesList = _competitionAnalysesRepository.GetList(i => i.StatusType != StatusType.Cancel && i.StartDate < DateTime.Now && i.EndDate > DateTime.Now);
 
                 foreach (var item in analysesList)
                 {
-                    //HttpClient client = new HttpClient();
-                    //HttpResponseMessage response = client.GetAsync(item.ProductLink).Result;
-                    //string result = response.Content.ReadAsStringAsync().Result;
-                    using (WebClient client = new WebClient()) // Html'i indirmek için bir İstemci Oluşturuyoruz.
+                    using (WebClient client = new WebClient())
                     {
-                        var uri = new Uri(item.ProductLink); // link yazan alana verisini okumak istediğimiz web sayfasının bağlantısını yazıyoruz.
-                        var host = uri.Host; // bu kısım verdiğimiz linkin Base Url (Merkez Bağlantısı Örn: "http://www.fatihbas.net/2019/04/19/cpu-sicakligi/" adresinden bize sadece "www.fatihbas.net" i döndürüyor)'ni döndürüyor.
-                        var scheme = uri.Scheme; // bu kısım ise girmiş olduğumuz linkin "HTTP" veya "HTTPS" olup olmadığını döndürüyor.
+                        var uri = new Uri(item.ParserLink);
+                        var host = uri.Host;
+                        var scheme = uri.Scheme; 
 
-                        client.Encoding = Encoding.UTF8; // sayfa kodlama karakter ailesinin UTF-8 olduğunu belirtiyoruz (%90 web sayfaları UTF-8 Olarak kodlanmaktadır)
+                        client.Encoding = Encoding.UTF8;
 
-                        string html = client.DownloadString(item.ProductLink); // bu satırda ise web sayfasının içeriğini indiriyoruz.
+                        string html = client.DownloadString(item.ParserLink); 
 
-                        // Bir HtmlDocument Oluşturarak indirmiş olduğumuz HTML ifadesini içerisine yüklüyoruz.
                         HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
                         htmlDocument.LoadHtml(html);
 
-                        // artık parse işlemine geçebiliriz
+                        HtmlNodeCollection htmlNodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='prdct-desc-cntnr-ttl-w two-line-text']");
+                        HtmlNodeCollection htmlNodes2 = htmlDocument.DocumentNode.SelectNodes("//div[@class='prc-box-dscntd']");
 
-                        HtmlNodeCollection htmlNodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='wd-single-post no-thumb']"); // burada dikkat edilmesi gereken bir konu, ben birden fazla elemanı döndürmek istediğim için class'ı kullandım. gelen ifade düz metin olduğu için jQuery gibi gelişmiş değil dolayısı ile elementin sahip olduğu class'ı olduğu gibi veriyorum. Burada www.fatihbas.net i baz alarak size örneklendirmeye devam edeceğim
-
-                        if (htmlNodes != null)
+                        double _salePrice = 0.0;
+                        for (int i = 0; i < htmlNodes.Count; i++)
                         {
-                            //bu alanda istediğimiz sonuçları okumaya yakın olduğumuzu görüyoruz.
-                            foreach (HtmlNode node in htmlNodes)
+                            if (htmlNodes[i].InnerText.Contains(item.ProductInfo))
                             {
-                                // son olarak gelen elemanları sırası ile burada okuyacağız.
-                                HtmlAgilityPack.HtmlDocument _subDocument = new HtmlAgilityPack.HtmlDocument();
-                                _subDocument.LoadHtml(node.InnerHtml);
-                                // Gelen nesnemizin alt elemanlarını okurken sorun yaşamamız için yeni bir HtmlDocument oluşturuyoruz.
-                                // Ve artık istediğimiz dataları okuyabiliriz.
-                                HtmlNode linkNode = _subDocument.DocumentNode.SelectSingleNode("//a[@class='more-link']");
-                                // linkNode Değişkeninde sayfamda bulunan "Devamını Oku (Read More)" butonunu getirmiş oldum.
-                                string devaminiOkuLink = linkNode.Attributes["href"].Value; // Devamını Oku butonunun içerisinde ki bağlantıyı almış oldum.
+                                _salePrice = Convert.ToDouble(htmlNodes2[i].InnerText.Split(" ")[0], provider);
+                                htmlNodes.Remove(i);
+                            }
+                        }
 
-                                HtmlNode icerikNode = _subDocument.DocumentNode.SelectSingleNode("//div[@class='wd-excerpt-content']");
+                        if (_salePrice != 0.0)
+                        {
+                            for (int i = 0; i < htmlNodes2.Count; i++)
+                            {
+                                var price = Convert.ToDouble(htmlNodes2[i].InnerText.Split(" ")[0], provider);
 
-                                string icerik = icerikNode.InnerHtml; // iceriklerimi HTML Olarak alıyorum. Yanlış Hatırlamıyorsam .InnerHtml yerine ".InnerText" yazarak direkt olarak HTML etiketleri (tag) olmadan salt metni alabilirsiniz. 
+                                if (_salePrice > price)
+                                {
+                                    if (item.LowestPrice < price - item.Multiple)
+                                    {
+                                        item.SalePrice = price - item.Multiple;
+                                        _competitionAnalysesRepository.Update(item);
+                                        _competitionAnalsesHistoryRepository.Insert(new CompetitionAnalysesHistory()
+                                        {
+                                            HistoryType = HistoryType.PriceChange,
+                                            OldPrice = _salePrice,
+                                            NewPrice = item.SalePrice,
+                                            CompetitionAnalysesId = item.Id,
+                                            Note = $"Fiyat değişikliği yeni fiyat: {item.SalePrice} eski fiyat: {item.SalePrice}"
+                                        });
+                                       var company =  _companyRepository.Get(item.CompanyId);
+
+                                        string trendyolApi = "https://api.trendyol.com/sapigw/suppliers/{0}/products/price-and-inventory";
+                                        string targetUrl = String.Format(trendyolApi, company.SupplierId);
+
+                                        HttpClient client2 = new HttpClient();
+                                        var byteArray = Encoding.ASCII.GetBytes(String.Format("{0}:{1}", company.UserName, company.Password));
+                                        client2.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                                        client2.DefaultRequestHeaders.Add("User-Agent", "200300444 - Trendyolsoft");
+                                        client2.DefaultRequestHeaders.Add("Content-Type", "application/json");
+
+
+                                        var newPrice = new UpdatePriceModel(item.Product, _salePrice , _salePrice);
+
+                                        var json = JsonConvert.SerializeObject(newPrice);
+                                        var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                                        HttpResponseMessage response = await client2.PostAsync(targetUrl, data);
+                                    }
+                                }
                             }
                         }
                     }
-                    //html parser yaz
-                    //fiyat deglştirme algorritması ekle
-
-                    _competitionAnalsesHistoryRepository.Insert(new CompetitionAnalysesHistory()
-                    {
-                        HistoryType = HistoryType.PriceChange,
-                        OldPrice = 5,
-                        NewPrice = 10,
-                        CompetitionAnalysesId = item.Id,
-                        Note = $"Fiyat değişikliği yeni fiyat: {item.SalePrice} eski fiyat: {item.SalePrice}"
-                    });
+                   
                 }
             }
             catch (Exception ex)

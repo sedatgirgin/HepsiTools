@@ -12,14 +12,16 @@ namespace HepsiTools.GenericRepositories.Concrate
         }
         private static void CreateContext()
         {
-            if (_context == null)
-            {
-                //lock = eger 2 request geldiyse biri bitmeden diğerine devam etmiyor.
-                lock (obj)
-                {
-                    _context = new ToolDbContext();
-                }
-            }
+            _context = new ToolDbContext();
+
+            //if (_context == null)
+            //{
+            //    //lock = eger 2 request geldiyse biri bitmeden diğerine devam etmiyor.
+            //    lock (obj)
+            //    {
+
+            //    }
+            //}
         }
     }
 }

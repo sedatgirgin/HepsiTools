@@ -12,6 +12,7 @@ namespace HepsiTools.Models
         public DateTime StartDate { get; set; } = DateTime.Now;
         public DateTime EndDate { get; set; } = DateTime.Now.AddHours(3);
         public string Product { get; set; }
+        public string ParserLink { get; set; }
         public string ProductLink { get; set; }
         public string ProductInfo { get; set; }
         public string Note { get; set; }

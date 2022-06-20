@@ -47,7 +47,12 @@ namespace HepsiTools
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ToolDbContext>(options =>options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ToolDbContext>(options => { 
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
+                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            });
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
             services.AddHttpContextAccessor();
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ToolDbContext>().AddDefaultTokenProviders();
 
@@ -134,10 +139,7 @@ namespace HepsiTools
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-           // services.AddHostedService<CompetitionBackgroundService>();
-            //services.AddHostedService<TimedHostedService>();
-
-
+           services.AddHostedService<CompetitionBackgroundService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -106,13 +106,6 @@ namespace HepsiTools.Controllers
 
             if (!result.Equals(null))
             {
-                _competitionAnalsesHistoryRepository.Insert(new CompetitionAnalysesHistory()
-                {
-                    HistoryType = HistoryType.Other,
-                    CompetitionAnalysesId = competitionAnalyses.Id,
-                    Note = "Yeni bir rekabet eklendi"
-                });
-
                 return new Result("Başarılı", result);
             }
             return new ErrorResult("Lütfen bilgilerinizi kontrol edin.");
@@ -206,10 +199,10 @@ namespace HepsiTools.Controllers
 
 
         [HttpGet("GetTrendYolProductList")]
-        public async Task<IActionResult> GetTrendYolProductListAsync()
+        public async Task<IActionResult> GetTrendYolProductListAsync(int companyId)
         {
             var _userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var compony = _companyRepository.Get(i => i.UserId == _userId);
+            var compony = _companyRepository.Get(i => i.UserId == _userId && i.Id == companyId);
 
             if (compony != null)
             {
