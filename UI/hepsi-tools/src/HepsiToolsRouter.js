@@ -9,6 +9,8 @@ import {
     useLocation
 } from "react-router-dom";
 import Panel from "./pages/Panel";
+import Login from "./pages/auth/login/Login";
+import Register from "./pages/auth/register/Register";
 
 // This example has 3 pages: a public page, a protected
 // page, and a login screen. In order to see the protected
@@ -26,7 +28,19 @@ import Panel from "./pages/Panel";
 // just *before* logging in, the public page.
 
 export default function HepsiToolsRouter() {
-    return(<Panel/>);
+    return(
+            <Switch>
+                <Route path="/login">
+                    <Login/>
+                </Route>
+                <Route path="/register">
+                    <Register/>
+                </Route>
+            </Switch>
+
+
+
+    );
     /*return (
         <div>
             <ProvideAuth>
