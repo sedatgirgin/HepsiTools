@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import "./Login.css";
-import {useHistory, withRouter} from "react-router-dom/cjs/react-router-dom";
+import {useHistory} from "react-router-dom/cjs/react-router-dom";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {loginUser} from "../../../actions/auth";
@@ -19,24 +19,40 @@ const Login = (props) => {
     };
 
     const [state, setState] = useState({
-        Email: "",
-        Password: "",
+        username: "",
+        password: "",
         error: false
     });
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { email, password } = state;
         props
-            .dispatchLoginUser({ email, password })
-            .then(() => props.history.push("/"))
-            .catch(() => setState({ error: true }));
+            .dispatchLoginUser(state)
+            .then(() => {
+                console.log("then çalıştı.")
+                props.history.push("/")
+            })
+            .catch(() => setState({error: true}));
+        props.history.push("/")
+
     };
 
-    const handleChange = (event) => {
+    const handleChangeUserName = (e) => {
+        console.log("username", e.target.value);
         setState({
-            [event.target.name]: event.target.value
+            "password": state.password,
+            "username": e.target.value
         });
+        console.log("state", state);
+    };
+
+    const handleChangePassword = (e) => {
+        console.log("password", e.target.value);
+        setState({
+            "password": e.target.value,
+            "username": state.username
+        });
+        console.log("state", state);
     };
 
     return (
@@ -44,9 +60,11 @@ const Login = (props) => {
             <div className="login-card">
                 <div className="login-title">Giriş</div>
                 <label htmlFor="userName" className="input-label">Kullanıcı Adı:</label>
-                <input className="login-input" name="Email" type="text" value={state.email} onChange={handleChange}/>
+                <input className="login-input" name="Email" type="text" value={state.email}
+                       onChange={handleChangeUserName}/>
                 <label htmlFor="password" className="input-label">Şifre:</label>
-                <input className="login-input" name="Password" type="password" value={state.password} onChange={handleChange}/>
+                <input className="login-input" name="Password" type="password" value={state.password}
+                       onChange={handleChangePassword}/>
                 <button className="primary-btn login-btn" onClick={handleSubmit}>Giriş</button>
                 <label>{state.error}</label>
                 <label className="input-label"> Kayıtlı değilsen üye olabilirsin</label>
@@ -56,9 +74,15 @@ const Login = (props) => {
     );
 };
 
+const mapStateToProps = (state) => {
+    return {
+        loggedIn: state.loggedIn,
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatchLoginUser: (credentials) =>  loginUser(dispatch)(credentials)
+        dispatchLoginUser: (credentials) => dispatch(loginUser(credentials))
     };
 };
 

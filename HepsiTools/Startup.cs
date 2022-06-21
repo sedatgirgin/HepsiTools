@@ -110,6 +110,10 @@ namespace HepsiTools
             });
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
             services.AddTransient<IMailService, MailService>();
             services.AddTransient<IErrorRepository, ErrorRepository>();
             services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -145,7 +149,23 @@ namespace HepsiTools
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
+            // Shows UseCors with CorsPolicyBuilder.
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader();
+            });
+
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                await next.Invoke();
+            });
+
             app.UseMiddleware<ErrorHandling>();
+
 
             DataSeeding.Seed(userManager,roleManager);
 
@@ -167,6 +187,9 @@ namespace HepsiTools
             {
                 endpoints.MapControllers();
             });
+
+         
+            
         }
     }
 }

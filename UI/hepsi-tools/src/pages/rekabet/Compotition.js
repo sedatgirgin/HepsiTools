@@ -20,7 +20,7 @@ function Compotition(props) {
 
             </div>
             <div>
-                <CompotitionTable/>
+                <CompotitionTable list={props.list}/>
             </div>
         </div>
     );

@@ -20,14 +20,14 @@ const deleteToken = () => {
     localStorage.removeItem("lastLoginTime");
 }
 
-const serverUrl = "http://localhost:5002";
+const serverUrl = "https://localhost:5001";
 
 export const signupUser = (credentials) => {
     return (dispatch) => {
         return fetch(serverUrl + "/signup", {
             method: "POST",
             headers: {
-                Accept: "application/json",
+                accept: "*/*",
                 "Content-Type": "application/json"
             },
             withCredentials: true,
@@ -52,22 +52,23 @@ export const signupUser = (credentials) => {
 
 export const loginUser = (credentials) => {
     return (dispatch) => {
-        return axios.request({
-            url:serverUrl + "/Account/Login",
+        return fetch(serverUrl + "/Account/Login",{
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
             },
-            withCredentials:false,
-            body: JSON.stringify(credentials),
+            body: JSON.stringify({email:"user@gmail.com", password:"User.123"}),
         }).then((res) => {
             if (res.ok) {
-                setToken(res.headers.get("Authorization"));
+                //setToken(res.data.get("token"));
                 return res
                     .json()
-                    .then((userJson) => {
-                            console.log("user", userJson);
-                            dispatch({type: AUTHENTICATED, payload: userJson});
+                    .then((res) => {
+                            console.log("res", res)
+                            console.log("user", res.data.token);
+                            setToken(res.data.token)
+
+                            dispatch({type: AUTHENTICATED, payload: res.data.token});
                         }
                     );
             } else {

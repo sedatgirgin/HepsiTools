@@ -21,3 +21,29 @@
     color: #687182;
     height: 34px;
 }
+
+.compotition-table-content th{
+    height: 48px;
+    /* Body/Number */
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    /* Gray/900 */
+    color: #171C26;
+}
+
+.compotition-table-content .compotition-table-item-name{
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #5E5ADB;
+    letter-spacing: 0.02em;
+}
+
+.compotition-table-item-date{
+    padding: 0 6px;
+}

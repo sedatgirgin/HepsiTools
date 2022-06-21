@@ -13,6 +13,7 @@ for (const [key, value] of Object.entries(authComponents)) {
 
 for (const [key, value] of Object.entries(protComponents)) {
     protectedComponents[`Protected${key}`] = withAuth(value)
+    console.log(protectedComponents);
 }
 
 export const wrappedComponents = {...authenticatedComponents, ...protectedComponents}

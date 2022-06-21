@@ -37,7 +37,7 @@ export default function HepsiToolsRouter() {
                 <Route path="/register">
                     <Register/>
                 </Route>
-                <Route exact path='/' render={(routerProps) => <wrappedComponents.Panel protected {...routerProps} />}/>
+                <Route exact path='/' render={(routerProps) => <wrappedComponents.ProtectedPanel protected {...routerProps} />}/>
             </Switch>
 
 
