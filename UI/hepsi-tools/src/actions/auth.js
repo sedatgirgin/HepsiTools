@@ -1,5 +1,4 @@
 import {AUTHENTICATED, NOT_AUTHENTICATED} from './actionTypes';
-import axios from "axios";
 
 const setToken = (token) => {
     localStorage.setItem("token", token);
@@ -122,8 +121,10 @@ export const checkAuth = () => {
                         user.data ? dispatch({type: AUTHENTICATED, payload: user}) : dispatch({type: NOT_AUTHENTICATED})
                     })
             } else {
-                return Promise.reject(dispatch({type: NOT_AUTHENTICATED}))
+                return dispatch({type: NOT_AUTHENTICATED})
             }
+        }).catch(reason => {
+            return dispatch({type: NOT_AUTHENTICATED})
         });
     };
 };

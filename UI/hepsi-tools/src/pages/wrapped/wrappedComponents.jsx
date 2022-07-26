@@ -1,7 +1,9 @@
 import Panel from '../Panel';
 import withAuth from "./WithAuth";
+import Login from "../auth/login/Login";
+import Register from "../auth/register/Register";
 
-const authComponents = {}
+const authComponents = {Login, Register}
 const protComponents = {Panel}
 
 const authenticatedComponents = {}

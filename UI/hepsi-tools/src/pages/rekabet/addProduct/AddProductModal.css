@@ -1,0 +1,40 @@
+.competition-product-price-wrapper{
+    display: flex;
+}
+
+.competition-input-wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-right: 40px;
+}
+
+.add-product-modal-wrapper{
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+}
+
+.add-product-title{
+    margin: 16px 20px;
+}
+
+.add-product-modal-input-container{
+    background-color: #E5E5E5;
+    overflow: auto;
+    height: calc(100% - 50px);
+    padding: 20px;
+}
+
+.add-product-modal-btn-left{
+    margin-right: 20px;
+}
+
+.add-product-modal-btn-container{
+    display: flex;
+    justify-content: flex-end;
+    height: 50px;
+    align-items: center;
+    margin: 16px 20px;
+
+}

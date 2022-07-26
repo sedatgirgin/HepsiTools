@@ -3,6 +3,7 @@ import "./Header.css";
 import NotificationIcon from '../../static/assets/Notification icon.png'
 import HelpIcon from '../../static/assets/help.png'
 import ProfileIcon from '../../static/assets/Rectangle 1650.png'
+import {connect} from "react-redux";
 function Header(props) {
     return (
         <div className="header">
@@ -11,7 +12,7 @@ function Header(props) {
                     Rekabet
                 </div>
                 <div className="header-count">
-                    27
+                    {props.competitionCount}
                 </div>
             </div>
             <div className="header-actions">
@@ -30,4 +31,11 @@ function Header(props) {
     );
 }
 
-export default Header;
+const mapStateToProps = ({competition}) => {
+    return {
+        competitionCount: competition.competitionList ? competition.competitionList.length : '',
+    };
+};
+
+
+export default connect(mapStateToProps, null)(Header);

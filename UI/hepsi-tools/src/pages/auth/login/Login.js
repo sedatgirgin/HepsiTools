@@ -33,7 +33,6 @@ const Login = (props) => {
                 props.history.push("/")
             })
             .catch(() => setState({error: true}));
-        props.history.push("/")
 
     };
 

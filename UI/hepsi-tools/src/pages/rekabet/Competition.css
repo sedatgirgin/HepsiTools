@@ -1,0 +1,37 @@
+.competition{
+
+}
+
+.competition-action-wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+.competition-filter-action{
+    display: flex;
+}
+
+.competition-filter-select{
+    margin: 20px 0;
+}
+
+.competition-action-item{
+    margin: 20px;
+}
+
+.competition-react-modal{
+    width: 440px;
+    height: 726px;
+
+    /* Gray/0 */
+    background: #F7F8FA;
+
+    /* Pop-Up L */
+    box-shadow: 0 0 0 1px rgba(136, 143, 170, 0.1), 0 30px 70px rgba(26, 34, 64, 0.15), 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 0;
+
+    position: absolute;
+    top: calc(50% - 363px);
+    left: calc(50% - 220px);
+}

@@ -31,12 +31,8 @@ import Panel from "./pages/Panel";
 export default function HepsiToolsRouter() {
     return(
             <Switch>
-                <Route path="/login">
-                    <Login/>
-                </Route>
-                <Route path="/register">
-                    <Register/>
-                </Route>
+                <Route exact path="/login" render={(routerProps) => <wrappedComponents.AuthenticatedLogin {...routerProps}/>}/>
+                <Route exact path="/register" render={(routerProps) => <wrappedComponents.AuthenticatedRegister {...routerProps}/>}/>
                 <Route exact path='/' render={(routerProps) => <wrappedComponents.ProtectedPanel protected {...routerProps} />}/>
             </Switch>
 
