@@ -5,7 +5,11 @@
 .competition-input-wrapper{
     display: flex;
     flex-direction: column;
-    margin-right: 40px;
+    width: 100%;
+}
+
+.competition-input-wrapper:first-child{
+    margin-right: 20px;
 }
 
 .add-product-modal-wrapper{

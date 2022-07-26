@@ -89,7 +89,7 @@ function AddProductModal(props) {
                                 id="high_price"
                                 wrapperClass="competition-input-wrapper"
                                 value={competition.highestPrice}
-                                label={"Düşük Fiyat"}
+                                label={"Min.Fiyat (Kdv Dahil)"}
                                 onChange={onChange}/>
                             <Input
                                 type="number"
@@ -97,7 +97,7 @@ function AddProductModal(props) {
                                 id="low_price"
                                 wrapperClass="competition-input-wrapper"
                                 value={competition.lowestPrice}
-                                label={"Yüksek Fiyat"}
+                                label={"Max.Fiyat (Kdv Dahil)"}
                                 onChange={onChange}/>
                         </div>
                         <Input
@@ -105,19 +105,19 @@ function AddProductModal(props) {
                             name="multiple"
                             id="multiple"
                             value={competition.multiple}
-                            label={"Kat Sayı"}
+                            label={"Fiyat Kademesi"}
                             onChange={onChange}/>
                         <div className={"competition-product-price-wrapper"}>
-                            <div className="competition-datetime-input-wrapper">
-                                <label htmlFor="startDate" className="input-label">Başlangıç Tarihi</label>
+                            <div className="competition-input-wrapper">
+                                <label htmlFor="startDate" className="input-label">Rekabet Başlangıç Tarihi</label>
                                 <DateTimePicker
                                     className="date-time-picker form-control"
                                     name="startDate"
                                     value={competition.startDate}
                                     onChange={onChange}/>
                             </div>
-                            <div className="competition-datetime-input-wrapper">
-                                <label htmlFor="endDate" className="input-label">Bitiş Tarihi</label>
+                            <div className="competition-input-wrapper">
+                                <label htmlFor="endDate" className="input-label">Rekabet Bitiş Tarihi</label>
                                 <DateTimePicker
                                     className="date-time-picker form-control"
                                     name="endDate"
