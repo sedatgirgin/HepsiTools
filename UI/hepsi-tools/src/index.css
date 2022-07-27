@@ -43,6 +43,14 @@ h5{
   color: #1A2240;
 }
 
+.alert-danger{
+  color: #D1293D;
+  font-family: 'Inter', monospace;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+}
+
 label.input-label{
   letter-spacing: 0.02em;
   /* Gray/700 */

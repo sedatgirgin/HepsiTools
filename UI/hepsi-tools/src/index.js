@@ -6,22 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
 import store from './store';
 import {
+    BrowserRouter,
     BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect,
-    useHistory
 } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
-        <React.StrictMode>
-            <Router>
+        <BrowserRouter>
+            <React.StrictMode>
                 <App/>
-            </Router>
-        </React.StrictMode>
+            </React.StrictMode>
+        </BrowserRouter>
     </Provider>
 );
 

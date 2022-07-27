@@ -2,9 +2,11 @@ import Panel from '../Panel';
 import withAuth from "./WithAuth";
 import Login from "../auth/login/Login";
 import Register from "../auth/register/Register";
+import Competition from "../rekabet/Competition";
+import WooCommerce from "../wooCommerce/WooCommerce";
 
 const authComponents = {Login, Register}
-const protComponents = {Panel}
+const protComponents = {Panel, Competition,WooCommerce}
 
 const authenticatedComponents = {}
 const protectedComponents = {}

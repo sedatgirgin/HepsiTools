@@ -13,10 +13,10 @@ function withAuth(WrappedComponent) {
         render() {
             if (!this.props.authChecked) {
                 return <div>Yükleniyor...</div>;
-            } else if (!this.props.loggedIn && this.props.protected) {
+            } else if (!this.props.loggedIn) {
                 return (
                     <>
-                        <Login />
+                        <Login/>
                     </>
                 );
             } else {

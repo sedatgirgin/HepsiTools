@@ -1,13 +1,10 @@
 import React, {useState} from 'react';
 import "./Login.css";
-import {useHistory} from "react-router-dom/cjs/react-router-dom";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {loginUser} from "../../../actions/auth";
 
 const Login = (props) => {
-
-    const history = useHistory();
 
     const location = {
         pathname: '/register',
@@ -15,7 +12,7 @@ const Login = (props) => {
     }
 
     let register = () => {
-        history.push('/register');
+        props.history.push('/register');
     };
 
     const [state, setState] = useState({
@@ -30,7 +27,7 @@ const Login = (props) => {
             .dispatchLoginUser(state)
             .then(() => {
                 console.log("then çalıştı.")
-                props.history.push("/")
+                props.history.push("/panel")
             })
             .catch(() => setState({error: true}));
 
@@ -85,4 +82,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(withRouter(Login));

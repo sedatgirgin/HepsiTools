@@ -1,5 +1,6 @@
 .form-control{
-    max-width: 400px;
-    margin-bottom: 32px;
+    max-width: 500px;
+    margin-bottom: 8px;
     margin-top: 8px;
+    width: 100%;
 }

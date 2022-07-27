@@ -14,7 +14,7 @@ const Input = ({ type ,id ,name, label, onChange, placeHolder, value, error, wra
 
     return (
         <div className={wrapperedClass}>
-            <label className={"input-label"} htmlFor={name}>{label}</label>
+            <label className="input-label" htmlFor={name}>{label}</label>
             <div className="field">
                 <input
                     id={id}

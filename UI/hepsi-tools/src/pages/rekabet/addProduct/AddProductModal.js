@@ -4,6 +4,8 @@ import {getProductList} from "../../../actions/competition";
 import DateTimePicker from "react-datetime-picker";
 import Input from "../../../components/input/Input";
 import "./AddProductModal.css";
+import {client} from "../../../api/client";
+import SelectInput from "../../../components/select/SelectInput";
 
 function AddProductModal(props) {
 
@@ -20,23 +22,74 @@ function AddProductModal(props) {
         }
     );
 
+    const [errors, setErrors] = useState({});
+
     const onCompanySelected = (e) => {
         props.dispatchGetProductList(e.target.value);
     }
-    const onProductSelected = (e) => {
-        setCompetition({...competition, product: e.target.value})
-    }
+
     const onChange = (e) => {
         const {name, value} = e.target;
-        setCompetition({...competition, [name]: value})
+        setCompetition((prevCompetition) => ({...prevCompetition, [name]: value}));
+        setErrors((prevErrors => ({...prevErrors, [name]: undefined})))
+    }
+
+    const onChageStartDateTime = (dateTime) => {
+        setCompetition((prevCompetition) => ({...prevCompetition, startDate: dateTime}));
+        setErrors((prevErrors => ({...prevErrors, startDate: undefined})))
+    }
+
+    const onChageEndDateTime = (dateTime) => {
+        setCompetition((prevCompetition) => ({...prevCompetition, endDate: dateTime}));
+        setErrors((prevErrors => ({...prevErrors, endDate: undefined})))
+    }
+
+    function validate() {
+        let errors = {};
+        if (!competition.parserLink) {
+            errors = {parserLink: "Ürünün linkini giriniz."}
+        }
+
+        if (!props.selectCompanyId) {
+            errors = {...errors, selectCompanyId: "Şirket Seçiniz."}
+        }
+
+        if (!competition.product) {
+            errors = {...errors, product: "Şirket Seçiniz."}
+        }
+
+        if (errors) {
+            setErrors(errors);
+        }
+
+        return !!errors;
     }
 
     const onClose = () => {
-      props.onClose();
+        props.onClose();
     }
 
     const oncompetitionAdd = () => {
-
+        if (validate()) {
+            client.post('/Competion/AddCompetition', {
+                "name": competition.name,
+                "highestPrice": competition.highestPrice,
+                "lowestPrice": competition.lowestPrice,
+                "multiple": competition.multiple,
+                "startDate": competition.startDate,
+                "endDate": competition.endDate,
+                "product": competition.product,
+                "parserLink": competition.parserLink,
+                "productLink": competition.name,
+                "productInfo": competition.name,
+                "note": competition.name,
+                "statusType": competition.statusType,
+                "companyId": props.selectCompanyId
+            })
+                .then((res) => {
+                    props.onClose();
+                });
+        }
     }
 
     return (
@@ -45,30 +98,43 @@ function AddProductModal(props) {
                 Yeni Rekabet Ekle
             </h5>
             <div className="add-product-modal-input-container">
-                <label htmlFor="company_list" className="input-label">Şirket Listesi</label>
-                <select
-                    className="form-control"
-                    name="company_list" id="company_list"
+                <Input
+                    type="text"
+                    name="parserLink"
+                    id="parserLink"
+                    wrapperClass="competition-input-wrapper"
+                    value={competition.parserLink}
+                    label={"Ürün URL"}
+                    error={errors.parserLink}
+                    onChange={onChange}/>
+                <SelectInput
+                    name="selectCompanyId"
+                    label="Şirket Listesi"
+                    wrapperClass="competition-input-wrapper"
+                    value={props.selectCompanyId || ""}
+                    defaultOption="Seçim yapınız"
+                    options={props.companyList.map((category) => ({
+                        value: category.id,
+                        text: category.customResourceName,
+                    }))}
                     onChange={onCompanySelected}
-                    value={props.selectCompanyId}>
-                    <option value={null}>Seçiniz</option>
-                    {props.companyList?.map((option) => (
-                        <option value={option.id}>{option.customResourceName}</option>
-                    ))}
-                </select>
+                    error={errors.selectCompanyId}
+                />
                 {
                     !!props.selectCompanyId &&
                     <div>
-                        <label htmlFor="product_list" className="input-label">Ürün Listesi</label>
-                        <select className="form-control"
-                                name="product_list"
-                                id="product_list"
-                                onChange={onProductSelected}
-                                value={competition.product}>
-                            {props.productList?.map((option) => (
-                                <option value={option.id}>{option.title}</option>
-                            ))}
-                        </select>
+                        <SelectInput
+                            name="product"
+                            label="Ürün Listesi"
+                            value={competition.product || ""}
+                            defaultOption="Seçim yapınız"
+                            options={props.productList.map((category) => ({
+                                value: category.id,
+                                text: category.title,
+                            }))}
+                            onChange={onChange}
+                            error={errors.product}
+                        />
                     </div>
 
                 }
@@ -79,8 +145,10 @@ function AddProductModal(props) {
                             type="text"
                             name="name"
                             id="competition_name"
+                            wrapperClass="competition-input-wrapper"
                             value={competition.name}
                             label={"Rekabet Adı"}
+                            error={errors.name}
                             onChange={onChange}/>
                         <div className={"competition-product-price-wrapper"}>
                             <Input
@@ -89,6 +157,7 @@ function AddProductModal(props) {
                                 id="high_price"
                                 wrapperClass="competition-input-wrapper"
                                 value={competition.highestPrice}
+                                error={errors.highestPrice}
                                 label={"Min.Fiyat (Kdv Dahil)"}
                                 onChange={onChange}/>
                             <Input
@@ -97,6 +166,7 @@ function AddProductModal(props) {
                                 id="low_price"
                                 wrapperClass="competition-input-wrapper"
                                 value={competition.lowestPrice}
+                                error={errors.lowestPrice}
                                 label={"Max.Fiyat (Kdv Dahil)"}
                                 onChange={onChange}/>
                         </div>
@@ -104,7 +174,9 @@ function AddProductModal(props) {
                             type="number"
                             name="multiple"
                             id="multiple"
+                            wrapperClass="competition-input-wrapper"
                             value={competition.multiple}
+                            error={errors.multiple}
                             label={"Fiyat Kademesi"}
                             onChange={onChange}/>
                         <div className={"competition-product-price-wrapper"}>
@@ -114,15 +186,19 @@ function AddProductModal(props) {
                                     className="date-time-picker form-control"
                                     name="startDate"
                                     value={competition.startDate}
-                                    onChange={onChange}/>
+                                    minDate={new Date(Date.now())}
+                                    onChange={onChageStartDateTime}/>
+                                {errors.startDate && <div className="alert alert-danger">{errors.startDate}</div>}
                             </div>
                             <div className="competition-input-wrapper">
                                 <label htmlFor="endDate" className="input-label">Rekabet Bitiş Tarihi</label>
                                 <DateTimePicker
                                     className="date-time-picker form-control"
                                     name="endDate"
+                                    minDate={new Date(Date.now())}
                                     value={competition.endDate}
-                                    onChange={onChange}/>
+                                    onChange={onChageEndDateTime}/>
+                                {errors.endDate && <div className="alert alert-danger">{errors.endDate}</div>}
                             </div>
                         </div>
                     </div>

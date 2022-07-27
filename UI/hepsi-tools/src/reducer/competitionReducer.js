@@ -16,21 +16,16 @@ export default function competition(state = initialState, action) {
             };
         case GET_COMPANY_LIST:
             return {
-                competitionList: state.companyList,
+                competitionList: state.competitionList,
                 selectCompanyId: undefined,
                 companyList: action.payload,
                 productList: []
             };
         case GET_PRODUCT_LIST:
             return {
-                ...state,
+                companyList: state.companyList,
+                competitionList: state.competitionList,
                 selectCompanyId: action.selectCompanyId,
-                productList: action.payload,
-            };
-        case ADD_competition:
-            return {
-                authChecked: true,
-                loggedIn: true,
                 productList: action.payload,
             };
         default:
