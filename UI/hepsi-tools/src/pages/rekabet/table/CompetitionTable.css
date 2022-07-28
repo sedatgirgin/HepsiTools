@@ -8,6 +8,10 @@
     border-collapse: collapse;
 }
 
+.competition-table tr {
+    border: 1px solid #E9EDF5;
+}
+
 .competition-table-header{
     background: rgba(247, 249, 252, 0.8);
     backdrop-filter: blur(8px);
@@ -64,4 +68,120 @@
     color: #171C26;
 
 
+}
+
+.competition-history-space{
+    height: 44px;
+    margin: 6px 12px;
+    border-left: 2px solid #D5DBE5;
+}
+
+.competition-history-row{
+    padding: 16px 52px;
+}
+
+.competition-table-item-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.competition-table-item-status{
+    /* Caption */
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+
+    /* identical to box height, or 150% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.03em;
+    flex-direction: row;
+    justify-content: center;
+    padding: 1px 8px;
+    gap: 6px;
+    border-radius: 4px;
+}
+
+.competition-table-item-status-circle{
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+}
+
+.competition-table-item-status-progress{
+    background: #E1FCEF;
+    color: #14804A;
+}
+
+.competition-table-item-status-progress .competition-table-item-status-circle{
+    background: #14804A;
+}
+
+.competition-table-item-status-cancel{
+    background: #FFEDEF;
+    color: #D1293D;
+}
+
+.competition-table-item-status-cancel .competition-table-item-status-circle{
+    background: #D1293D;
+}
+
+.competition-table-item-status-onhold{
+    background: #E9EDF5;
+    color: #5A6376;
+}
+
+.competition-table-item-status-onhold .competition-table-item-status-circle{
+    background: #5A6376;
+}
+
+.competition-table-item-status-declining-stock{
+    background: #FCF2E6;
+    color: #AA5B00;
+}
+
+.competition-table-item-status-declining-stock .competition-table-item-status-circle{
+    background: #AA5B00;
+}
+
+.competition-table-date-wrapper{
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+
+    /* identical to box height, or 150% */
+    letter-spacing: 0.03em;
+    font-feature-settings: 'tnum' on, 'lnum' on;
+
+    /* Gray/700 */
+    color: #464F60;
+    padding: 1px 8px;
+    gap: 6px;
+
+    /* Gray/50 */
+    background: #E9EDF5;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+
+.competition-table-item-repetition-count{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 7px;
+    gap: 10px;
+
+    width: 24px;
+    height: 24px;
+
+    /* Gray/50 */
+    background: #E9EDF5;
+    border-radius: 6px;
 }

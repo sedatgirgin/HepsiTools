@@ -1,4 +1,4 @@
-import {GET_COMPANY_LIST, GET_PRODUCT_LIST, ADD_competition, GET_COMPETITION_LIST} from "../actions/actionTypes";
+import {GET_COMPANY_LIST, GET_PRODUCT_LIST, GET_COMPETITION_LIST} from "../actions/actionTypes";
 
 const initialState = {
     companyList:[],

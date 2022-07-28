@@ -5,6 +5,7 @@
 .competition-action-wrapper{
     display: flex;
     justify-content: space-between;
+    padding: 20px;
 }
 
 .competition-filter-action{
@@ -16,7 +17,18 @@
 }
 
 .competition-action-item{
-    margin: 20px;
+
+}
+
+.competition-action-item .form-control:first-child{
+    border-right: none;
+}
+.competition-action-item .form-control:last-child{
+    border-left: none;
+}
+
+.competition-action-item .form-control{
+    margin: 0;
 }
 
 .competition-react-modal{

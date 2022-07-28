@@ -8,10 +8,11 @@ const SelectInput = ({
                          value,
                          error,
                          options,
+                         wrapperClass
                      }) => {
     return (
-        <div className="form-group">
-            <label className="input-label" htmlFor={name}>{label}</label>
+        <div className={!!wrapperClass?`${wrapperClass}` : "form-group"}>
+            {label && <label className="input-label" htmlFor={name}>{label}</label>}
             <select
                 name={name}
                 value={value}
@@ -19,7 +20,7 @@ const SelectInput = ({
                 className="form-control"
             >
                 <option value="">{defaultOption}</option>
-                {options.map(option=>{
+                {options && options.map(option=>{
                     return (<option key={option.value} value = {option.value}>{option.text}</option>)
                 })}
             </select>

@@ -6,6 +6,8 @@ import CompetitionTable from "./table/CompetitionTable";
 import AddProductModal from "./addProduct/AddProductModal";
 import {getCompanyList} from "../../actions/competition";
 import {connect} from "react-redux";
+import SelectInput from "../../components/select/SelectInput";
+import Input from "../../components/input/Input";
 
 function Competition(props) {
     const [isAddProductModalOpen, setAddProductModalOpen] = useState(false);
@@ -25,9 +27,21 @@ function Competition(props) {
                     <button className="secondary-btn competition-action-item">
                         <img src={TableIcon} alt="Ürün kontrol et"/>
                     </button>
-                    <select className="competition-filter-select" name="filterSelect" id="filterSelect">
-                        Hepsi
-                    </select>
+                    <SelectInput
+                        options={[
+                            {value:'all', text:'Hepsi'},
+                            {value:'name', text:'Ürün Adı'},
+                            {value:'all', text:'Hepsi'},
+                            {value:'all', text:'Hepsi'},
+                        ]}
+                        wrapperClass="competition-action-item"
+                        defaultOption={'Filtre'}
+                    />
+                    <Input
+                        type="text"
+                        wrapperClass="competition-action-item"
+                        placeHolder="Arama Yap..."
+                    />
                 </div>
                 <div>
                     <button

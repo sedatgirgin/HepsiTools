@@ -14,7 +14,7 @@ const HepsiToolsRouter = () => (
         <Route exact path="/register"
                render={(routerProps) => <wrappedComponents.AuthenticatedRegister {...routerProps}/>}/>
         <Route path='/panel'
-               render={(routerProps) => <wrappedComponents.ProtectedPanel {...routerProps} protected/>}></Route>
+               render={(routerProps) => <wrappedComponents.ProtectedPanel {...routerProps} protected/>}/>
         <Redirect exact from='/' to='/panel'/>
     </Switch>
 );

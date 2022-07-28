@@ -1,0 +1,21 @@
+.woocommerce-action-wrapper{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.woocommerce-filter-action{
+    display: flex;
+}
+
+.woocommerce-filter-select{
+    margin: 20px 0;
+}
+
+.woocommerce-action-item{
+    margin: 20px;
+}
+
+.woocommerce-action-item .form-control{
+    margin: 0;
+}

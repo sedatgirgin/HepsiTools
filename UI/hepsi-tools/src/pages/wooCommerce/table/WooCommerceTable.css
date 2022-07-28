@@ -1,0 +1,80 @@
+.woocommerce-table-wrapper{
+    width: 100%;
+    overflow-x: auto;
+}
+
+.woocommerce-table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.woocommerce-table tr {
+    border: 1px solid #E9EDF5;
+}
+
+.woocommerce-table-header{
+    background: rgba(247, 249, 252, 0.8);
+    backdrop-filter: blur(8px);
+
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+
+    color: #687182;
+    height: 34px;
+}
+
+.woocommerce-table-content th{
+    height: 48px;
+    /* Body/Number */
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    /* Gray/900 */
+    color: #171C26;
+}
+
+.woocommerce-table-content .woocommerce-table-item-name{
+    font-family: 'Inter', monospace;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #5E5ADB;
+    letter-spacing: 0.02em;
+}
+
+.woocommerce-table-item-date{
+    padding: 0 6px;
+}
+
+.woocommerce-table-opened-arrow{
+    transform: rotate(90deg);
+}
+
+.woocommerce-history-sub-title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    font-family: 'Inter', monospace;
+    letter-spacing: 0.02em;
+
+    /* Gray/900 */
+    color: #171C26;
+}
+
+.woocommerce-table-image-item{
+    width: 100px;
+    height: 100px;
+}
+
+.woocommerce-table-info-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

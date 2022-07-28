@@ -1,0 +1,60 @@
+
+.history-item{
+    display: flex;
+}
+
+.history-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* shadow-s */
+    box-shadow: 0 0 0 1px rgba(152, 161, 178, 0.1), 0 1px 4px rgba(69, 75, 87, 0.12), 0 0 2px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    width: 24px;
+    height: 24px;
+}
+
+.history-icon-plus{
+    background: #D5DBE5;
+}
+
+.history-icon-status{
+    /* Blue/100 */
+    background: #CCDDFF;
+}
+
+.history-icon-price{
+    background: #D0CFFC;
+}
+
+.history-title{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+
+    /* identical to box height, or 143% */
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+
+    /* Gray/900 */
+    color: #171C26;
+
+    margin: 0 16px;
+}
+
+.history-date{
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+
+
+    /* Gray/700 */
+    color: #464F60;
+}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {connect} from "react-redux";
-import {getProductList} from "../../../actions/competition";
+import {getCompetitionList, getProductList} from "../../../actions/competition";
 import DateTimePicker from "react-datetime-picker";
 import Input from "../../../components/input/Input";
 import "./AddProductModal.css";
@@ -66,6 +66,8 @@ function AddProductModal(props) {
     }
 
     const onClose = () => {
+        props.dispatchGetCompetitionList()
+        props.dispatchGetProductList("")
         props.onClose();
     }
 
@@ -226,7 +228,8 @@ const mapStateToProps = ({competition}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        dispatchGetProductList: (companyId) => dispatch(getProductList(companyId))
+        dispatchGetProductList: (companyId) => dispatch(getProductList(companyId)),
+        dispatchGetCompetitionList: () => dispatch(getCompetitionList())
     };
 };
 
