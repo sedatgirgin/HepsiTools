@@ -31,8 +31,7 @@ function Competition(props) {
                         options={[
                             {value:'all', text:'Hepsi'},
                             {value:'name', text:'Ürün Adı'},
-                            {value:'all', text:'Hepsi'},
-                            {value:'all', text:'Hepsi'},
+                            {value:'status', text:'Durum'},
                         ]}
                         wrapperClass="competition-action-item"
                         defaultOption={'Filtre'}

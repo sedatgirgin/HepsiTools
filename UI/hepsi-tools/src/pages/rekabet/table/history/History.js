@@ -7,7 +7,7 @@ import "./History.css";
 function History({history}) {
 
 
-    if (history.id === 1) {
+    if (history.historyType === 1) {
         return (
             <div className="history-item" key={history.id}>
                 <div className="history-icon history-icon-plus">
@@ -21,7 +21,7 @@ function History({history}) {
                 </div>
             </div>
         );
-    } else if (history.id === 2) {
+    } else if (history.historyType === 2) {
         return (
             <div className="history-item" key={history.id}>
                 <div className="history-icon history-icon-status">
